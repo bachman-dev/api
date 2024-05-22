@@ -1,0 +1,29 @@
+changelog:
+  exclude:
+    labels:
+      - "release"
+  categories:
+    - title: ⚠️ BREAKING CHANGES
+      labels:
+        - "breaking change"
+    - title: 🏚️ Deprecated Items
+      labels:
+        - deprecated
+    - title: 🎉 New Features
+      labels:
+        - enhancement
+    - title: 🐛 Bug Fixes
+      labels:
+        - bug
+    - title: 📓 Documentation Updates
+      labels:
+        - documentation
+    - title: ☑️ TypeScript Changes
+      labels:
+        - typescript
+    - title: 🔄 Dependency Updates
+      labels:
+        - dependencies
+    - title: Other Changes
+      labels:
+        - "*"
