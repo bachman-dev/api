@@ -1,6 +1,6 @@
 name: Dispatch Jobs
 on:
-  repository_dispatch:
+  workflow_dispatch:
 jobs:
   test:
     name: Deploy Server
