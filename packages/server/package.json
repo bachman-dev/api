@@ -1,7 +1,7 @@
 {
   "name": "@bachman-dev/api-server",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
