@@ -1,0 +1,34 @@
+{
+  "name": "@bachman-dev/api-contract",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*.{js,d.ts}"
+  ],
+  "scripts": {
+    "build": "tsup --dts --format esm src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@ts-rest/core": "^3.45.2",
+    "zod": "^3.23.8"
+  }
+}

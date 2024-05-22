@@ -1,0 +1,52 @@
+name: Dispatch Jobs
+on:
+  repository_dispatch:
+jobs:
+  test:
+    name: Deploy Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Latest Release Tag
+        id: latestrelease
+        run: |
+          run: |
+          echo "::set-output name=releasetag::$(curl -s https://api.github.com/repos/bachman-dev/api/releases/latest --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | jq '.tag_name' | sed 's/\"//g')"
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.latestrelease.outputs.releasetag }}
+      - name: Install cloudflared
+        run: |
+          curl -L https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-archive-keyring.gpg >/dev/null
+          echo "deb [signed-by=/usr/share/keyrings/cloudflare-archive-keyring.gpg] https://pkg.cloudflare.com/cloudflared $(lsb_release -cs) main" | sudo tee  /etc/apt/sources.list.d/cloudflared.list
+          sudo apt update
+          sudo apt install cloudflared
+      - name: Configure SSH
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          name: id_ed25519
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          config: |
+            Host ${{ secrets.SSH_HOST }}
+              ProxyCommand /usr/local/bin/cloudflared access ssh --hostname %h --id ${{ secrets.CF_SERVICE_TOKEN_ID }} --secret ${{ secrets.CF_SERVICE_TOKEN_SECRET }}
+              IdentityFile ~/.ssh/id_ed25519
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+      - name: Install Dependencies
+        run: pnpm install
+      - name: Run ESLint
+        run: pnpm lint
+      - name: Build Packages
+        run: pnpm build
+      - name: Pack Server Package
+        run: cd packages/server && pnpm pack
+      - name: Copy Server Package to Server
+        run: rsync -az --delete bachman-dev-api-server-*.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIRECTORY }}
+      - name: Extract and Reload Server
+        run: ssh -t ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar --strip-components=1 -xzvf bachman-dev-api-server-*.tgz && pnpm install && rm bachman-dev-api-server-*.tgz"

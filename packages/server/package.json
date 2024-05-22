@@ -1,0 +1,39 @@
+{
+  "name": "@bachman-dev/api-server",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist/**/*.{js,d.ts}"
+  ],
+  "scripts": {
+    "build": "tsup --dts --format esm src/index.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "start": "node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@bachman-dev/api-contract": "workspace:*",
+    "@ts-rest/fastify": "^3.45.2",
+    "fastify": "^4.27.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.12",
+    "tsup": "8.0.2",
+    "typescript": "5.4.5"
+  }
+}

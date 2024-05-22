@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo run build",
+    "changeset": "changeset",
+    "ci:publish": "pnpm build && pnpm publish -r --no-git-checks --access public && pnpm changeset tag",
+    "ci:version": "pnpm exec changeset version && pnpm install --no-frozen-lockfile && git add .",
+    "format": "prettier --write \"**/*.{js,mjs,ts,ts,md}\"",
+    "lint": "turbo run lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@bachman-dev/eslint-config": "0.1.1",
+    "@eslint/js": "^9.3.0",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.2.5",
+    "turbo": "1.13.3",
+    "typescript-eslint": "7.9.0"
+  },
+  "packageManager": "pnpm@9.1.1"
+}

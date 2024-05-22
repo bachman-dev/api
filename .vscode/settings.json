@@ -1,0 +1,12 @@
+{
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "workbench.editor.customLabels.patterns": {
+    "**/packages/client/**/**.*": "Client - ${filename}.${extname}",
+    "**/packages/contract/**/**.*": "Contract - ${filename}.${extname}",
+    "**/packages/server/**/**.*": "Server - ${filename}.${extname}"
+  }
+}
