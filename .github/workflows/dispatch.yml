@@ -47,6 +47,6 @@ jobs:
       - name: Pack Server Package
         run: cd packages/server && pnpm pack
       - name: Copy Server Package to Server
-        run: rsync -az --delete bachman-dev-api-server-*.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIRECTORY }}
+        run: rsync -az --delete ./packages/server/bachman-dev-api-server-*.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIRECTORY }}
       - name: Extract and Reload Server
         run: ssh -t ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar --strip-components=1 -xzvf bachman-dev-api-server-*.tgz && pnpm install && rm bachman-dev-api-server-*.tgz"
