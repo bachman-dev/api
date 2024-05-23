@@ -6,7 +6,7 @@
   ],
   "workbench.editor.customLabels.patterns": {
     "**/packages/client/**/**.*": "Client - ${filename}.${extname}",
-    "**/packages/contract/**/**.*": "Contract - ${filename}.${extname}",
-    "**/packages/server/**/**.*": "Server - ${filename}.${extname}"
+    "**/packages/server/**/**.*": "Server - ${filename}.${extname}",
+    "**/packages/types/**/**.*": "Types - ${filename}.${extname}"
   }
 }
