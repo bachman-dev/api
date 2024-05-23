@@ -24,8 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@bachman-dev/api-contract": "workspace:*",
-    "@ts-rest/core": "^3.45.2",
+    "@bachman-dev/api-types": "workspace:*",
     "zod": "^3.23.8"
   },
   "devDependencies": {
