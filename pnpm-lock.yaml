@@ -73,9 +73,6 @@ importers:
 
   packages/types:
     dependencies:
-      '@ts-rest/core':
-        specifier: ^3.45.2
-        version: 3.45.2(zod@3.23.8)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -395,14 +392,6 @@ packages:
     resolution: {integrity: sha512-TGGO7v7qOq4CYmSBVEYpI1Y5xDuCEnbVC5Vth8mOsW0gDSzxNrVERPc790IGHsrT2dQSimgMr9Ub3Y1Jci5/8w==}
     cpu: [x64]
     os: [win32]
-
-  '@ts-rest/core@3.45.2':
-    resolution: {integrity: sha512-Eiv+Sa23MbsAd1Gx9vNJ+IFCDyLZNdJ+UuGMKbFvb+/NmgcBR1VL1UIVtEkd5DJxpYMMd8SLvW91RgB2TS8iPw==}
-    peerDependencies:
-      zod: ^3.22.3
-    peerDependenciesMeta:
-      zod:
-        optional: true
 
   '@types/eslint@8.56.10':
     resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
@@ -1615,10 +1604,6 @@ snapshots:
 
   '@rollup/rollup-win32-x64-msvc@4.17.2':
     optional: true
-
-  '@ts-rest/core@3.45.2(zod@3.23.8)':
-    optionalDependencies:
-      zod: 3.23.8
 
   '@types/eslint@8.56.10':
     dependencies:
