@@ -3,7 +3,7 @@ import type { Route } from "@bachman-dev/api-types";
 
 export default function collectSetRoutes(
   routeOptions: RouteOptions,
-  contractRoutes: Route[],
+  contractRoutes: readonly Route[],
   setRoutes: Route[],
 ): void {
   console.log(contractRoutes);
