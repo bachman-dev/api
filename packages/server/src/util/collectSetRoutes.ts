@@ -51,10 +51,10 @@ export default function collectSetRoutes(
     default:
       throw new Error(`Unsupported Set Route Method ${method}`);
   }
-  const isRouteFound = contractRoutes.find(
+  const foundRoute = contractRoutes.find(
     (route) => route.method === checkedRoute.method && route.path === checkedRoute.path,
   );
-  if (!isRouteFound) {
+  if (typeof foundRoute === "undefined") {
     throw new Error(`Set Route Not Found in Contract: ${method} ${routeOptions.url}`);
   }
   setRoutes.push(checkedRoute);

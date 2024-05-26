@@ -3,10 +3,10 @@ import type { Route } from "@bachman-dev/api-types";
 export default function validateRoutes(contractRoutes: Route[], setRoutes: Route[]): void {
   const missingRoutes: Route[] = [];
   contractRoutes.forEach((route) => {
-    const isRouteFound = setRoutes.find(
+    const foundRoute = setRoutes.find(
       (searchRoute) => searchRoute.method === route.method && searchRoute.path === route.path,
     );
-    if (!isRouteFound) {
+    if (typeof foundRoute === "undefined") {
       missingRoutes.push(route);
     }
   });
