@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@bachman-dev/eslint-config": "0.1.1",
+    "@bachman-dev/eslint-config": "0.1.2",
     "@eslint/js": "9.3.0",
     "@types/eslint__js": "8.42.3",
     "eslint": "8.57.0",

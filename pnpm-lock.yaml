@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@bachman-dev/eslint-config':
-        specifier: 0.1.1
-        version: 0.1.1(eslint@8.57.0)(typescript-eslint@7.9.0(eslint@8.57.0)(typescript@5.4.5))(typescript@5.4.5)
+        specifier: 0.1.2
+        version: 0.1.2(eslint@8.57.0)(typescript-eslint@7.9.0(eslint@8.57.0)(typescript@5.4.5))(typescript@5.4.5)
       '@eslint/js':
         specifier: 9.3.0
         version: 9.3.0
@@ -54,6 +54,9 @@ importers:
       '@bachman-dev/api-types':
         specifier: workspace:*
         version: link:../types
+      discord-api-types:
+        specifier: ^0.37.85
+        version: 0.37.85
       fastify:
         specifier: ^4.27.0
         version: 4.27.0
@@ -73,6 +76,9 @@ importers:
 
   packages/types:
     dependencies:
+      discord-api-types:
+        specifier: ^0.37.85
+        version: 0.37.85
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -86,8 +92,8 @@ importers:
 
 packages:
 
-  '@bachman-dev/eslint-config@0.1.1':
-    resolution: {integrity: sha512-TYRUmvP7Pi5guNJteGRKczqwqaV7u4VNQsRDwgSX0WAg+57RNmgOQ8+6moBKTKHYcv72uOBvAAiHZjHuJqxSoA==}
+  '@bachman-dev/eslint-config@0.1.2':
+    resolution: {integrity: sha512-DU7pVwI2lHntxOH3CYUoZVo5G1mw1huD6tiyQJrZJCdcqJ7kpceKyJKkXm1pRi56ytULK3OfwGiZMumA9D+edQ==}
     peerDependencies:
       eslint: ^8.57.0
       typescript-eslint: ^7.9.0
@@ -630,6 +636,9 @@ packages:
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
+
+  discord-api-types@0.37.85:
+    resolution: {integrity: sha512-T75aB9JEw9X0rlMChEMHbr9JlXMqdmdKiZVjBeKs91cJo28IuAIldj+VZoC+I+Q9gCaRjHlwRkcksy2XZY6c3A==}
 
   doctrine@3.0.0:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
@@ -1385,7 +1394,7 @@ packages:
 
 snapshots:
 
-  '@bachman-dev/eslint-config@0.1.1(eslint@8.57.0)(typescript-eslint@7.9.0(eslint@8.57.0)(typescript@5.4.5))(typescript@5.4.5)':
+  '@bachman-dev/eslint-config@0.1.2(eslint@8.57.0)(typescript-eslint@7.9.0(eslint@8.57.0)(typescript@5.4.5))(typescript@5.4.5)':
     dependencies:
       '@typescript-eslint/utils': 7.9.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
@@ -1850,6 +1859,8 @@ snapshots:
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
+
+  discord-api-types@0.37.85: {}
 
   doctrine@3.0.0:
     dependencies:

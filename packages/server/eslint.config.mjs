@@ -11,7 +11,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-  bachmanDev({ language: "typescript" }),
+  bachmanDev({ language: "typescript", allowConsole: true }),
   {
     languageOptions: {
       parserOptions: {
