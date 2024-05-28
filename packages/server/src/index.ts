@@ -1,22 +1,24 @@
-import contract from "@bachman-dev/api-contract";
+import { type Route, routes } from "@bachman-dev/api-types";
+import collectSetRoutes from "./util/collectSetRoutes.js";
 import { fastify } from "fastify";
-import { initServer } from "@ts-rest/fastify";
+import validateRoutes from "./util/validateRoutes.js";
 
 const app = fastify();
 
-const tsr = initServer();
+const setRoutes: Route[] = [];
 
-const router = tsr.router(contract, {
-  sayHello: async () =>
-    await Promise.resolve({
-      status: 200,
-      body: {
-        greeting: "Hello, World!",
-      },
-    }),
+/*
+TODO: Implement Routes
+void app.register(import("./v1/discord.js"));
+*/
+
+app.addHook("onRoute", (routeOptions) => {
+  collectSetRoutes(routeOptions, routes, setRoutes);
 });
 
-await app.register(tsr.plugin(router));
+app.addHook("onReady", () => {
+  validateRoutes(routes, setRoutes);
+});
 
 try {
   await app.listen({ port: 3000 });
