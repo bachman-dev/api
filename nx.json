@@ -1,26 +1,11 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"],
-      "cache": true
-    },
-    "lint": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
-    "lint:fix": {
-      "cache": true
-    }
+    "build": { "dependsOn": ["^build"], "outputs": ["{projectRoot}/dist"], "cache": true },
+    "lint": { "dependsOn": ["^build"], "cache": true },
+    "lint:fix": { "dependsOn": ["^build"], "cache": true }
   },
   "defaultBase": "main",
-  "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    }
-  ]
+  "plugins": [{ "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint*" } }],
+  "nxCloudAccessToken": "OGQ0YTI0YWUtMmU1Mi00YzY1LWEwYWMtYWVhMmJiOGJiYzNhfHJlYWQtd3JpdGU="
 }
