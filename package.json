@@ -4,12 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "turbo run build",
-    "changeset": "changeset",
-    "ci:publish": "pnpm build && pnpm publish -r --no-git-checks --access public && pnpm changeset tag",
-    "ci:version": "pnpm exec changeset version && pnpm install --no-frozen-lockfile && git add .",
-    "format": "prettier --write \"**/*.{js,mjs,ts,ts,md}\"",
-    "lint": "turbo run lint"
+    "build": "nx run-many -t build",
+    "format": "prettier --write \"**/*.{js,mjs,ts,ts,md,yml,yaml}\"",
+    "lint": "nx run-many -t lint"
   },
   "keywords": [],
   "author": "",
@@ -17,11 +14,12 @@
   "devDependencies": {
     "@bachman-dev/eslint-config": "0.1.2",
     "@eslint/js": "9.3.0",
+    "@nx/eslint": "19.1.0",
     "@types/eslint__js": "8.42.3",
     "eslint": "8.57.0",
     "eslint-config-prettier": "9.1.0",
+    "nx": "19.1.0",
     "prettier": "3.2.5",
-    "turbo": "1.13.3",
     "typescript-eslint": "7.9.0"
   },
   "packageManager": "pnpm@9.1.2"
