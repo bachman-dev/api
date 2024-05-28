@@ -6,6 +6,6 @@
     "lint:fix": { "dependsOn": ["^build"], "cache": true }
   },
   "defaultBase": "main",
-  "plugins": [{ "plugin": "@nx/eslint/plugin", "options": { "targetName": ["lint", "lint:fix"] } }],
+  "plugins": [{ "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint*" } }],
   "nxCloudAccessToken": "OGQ0YTI0YWUtMmU1Mi00YzY1LWEwYWMtYWVhMmJiOGJiYzNhfHJlYWQtd3JpdGU="
 }
