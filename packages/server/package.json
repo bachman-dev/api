@@ -29,6 +29,7 @@
     "@bachman-dev/api-types": "workspace:*",
     "discord-api-types": "^0.37.85",
     "fastify": "^4.27.0",
+    "find-my-way": "^8.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
