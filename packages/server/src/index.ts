@@ -1,9 +1,17 @@
 import { type Route, routes } from "@bachman-dev/api-types";
+import calVersionConstraint from "./util/calVersionConstraint.js";
 import collectSetRoutes from "./util/collectSetRoutes.js";
 import { fastify } from "fastify";
+/* TODO: Create versioned routes using this as the config
+import routeVersion from "./util/routeVersion.js";
+*/
 import validateRoutes from "./util/validateRoutes.js";
 
-const app = fastify();
+const app = fastify({
+  constraints: {
+    version: calVersionConstraint,
+  },
+});
 
 const setRoutes: Route[] = [];
 
@@ -21,7 +29,7 @@ app.addHook("onReady", () => {
 });
 
 try {
-  await app.listen({ port: 3000 });
+  await app.listen({ port: 3000, listenTextResolver: (address) => `Listening on ${address}` });
 } catch (err) {
   app.log.error(err);
   process.exit(1);
