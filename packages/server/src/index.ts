@@ -15,6 +15,11 @@ const app = fastify({
 
 const setRoutes: Route[] = [];
 
+/*
+TODO: Implement Routes
+void app.register(import("./v1/discord.js"));
+*/
+
 app.addHook("onRoute", (routeOptions) => {
   collectSetRoutes(routeOptions, routes, setRoutes);
 });
