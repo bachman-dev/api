@@ -28,13 +28,6 @@ app.addHook("onReady", () => {
   validateRoutes(routes, setRoutes);
 });
 
-app.addHook("onSend", (req, reply, _payload, done) => {
-  if (typeof req.headers["x-api-version"] === "string") {
-    void reply.header("vary", "x-api-version");
-  }
-  done();
-});
-
 try {
   await app.listen({ port: 3000, listenTextResolver: (address) => `Listening on ${address}` });
 } catch (err) {

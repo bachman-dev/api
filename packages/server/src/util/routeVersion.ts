@@ -9,5 +9,9 @@ export default function routeVersion(version: string): RouteShorthandOptions {
       void reply.header("x-api-version", version);
       done();
     },
+    onSend: (_req, reply, _payload, done): void => {
+      void reply.header("vary", "x-api-version");
+      done();
+    },
   };
 }
