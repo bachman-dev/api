@@ -6,15 +6,15 @@ jobs:
     name: Deploy Server
     runs-on: ubuntu-latest
     steps:
-      #- name: Get Latest Release Tag
-      #  id: latestrelease
-      #  run: |
-      #    run: |
-      #    echo "::set-output name=releasetag::$(curl -s https://api.github.com/repos/bachman-dev/api/releases/latest --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | jq '.tag_name' | sed 's/\"//g')"
+      - name: Get Latest Release Tag
+        id: latestrelease
+        run: |
+          run: |
+          echo "::set-output name=releasetag::$(curl -s https://api.github.com/repos/bachman-dev/api/releases/latest --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | jq '.tag_name' | sed 's/\"//g')"
       - name: Checkout
         uses: actions/checkout@v4
-      #  with:
-      #    ref: ${{ steps.latestrelease.outputs.releasetag }}
+        with:
+          ref: ${{ steps.latestrelease.outputs.releasetag }}
       - name: Install cloudflared
         run: |
           curl -L https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-archive-keyring.gpg >/dev/null
@@ -48,5 +48,3 @@ jobs:
         run: cd packages/server && pnpm pack
       - name: Copy Server Package to Server
         run: rsync -az --delete ./packages/server/bachman-dev-api-server-*.tgz ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_TARGET_DIRECTORY }}
-      - name: Extract and Reload Server
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "tar --strip-components=1 -xzvf bachman-dev-api-server-*.tgz && pnpm install && rm bachman-dev-api-server-*.tgz"
