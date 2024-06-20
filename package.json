@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "nx run-many --output-style=stream-without-prefixes -t build",
+    "build": "nx run-many --output-style=static -t build",
     "db:generate": "nx run-many --output-style=static -t db:generate",
-    "db:migrate": "nx run-many -t db:migrate",
-    "db:up": "nx run-many -t db:up",
+    "db:migrate": "nx run-many --output-style=static -t db:migrate",
+    "db:up": "nx run-many --output-style=static -t db:up",
     "format": "prettier --write \"**/*.{js,mjs,ts,ts,md,yml,yaml}\"",
-    "lint": "nx run-many -t lint",
-    "lint:fix": "nx run-many -t lint:fix"
+    "lint": "nx run-many --output-style=static -t lint",
+    "lint:fix": "nx run-many --output-style=static -t lint:fix"
   },
   "keywords": [],
   "author": "",
