@@ -21,7 +21,7 @@
     "build": "tsup --dts --format esm src/index.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "infisical run --path='/node/api' -- drizzle-kit migrate",
-    "db:up": "infisical run --path='/node/api' -- drizzle-kit up",
+    "db:up": "drizzle-kit up",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "node ./dist/index.js"
