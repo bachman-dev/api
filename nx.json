@@ -2,6 +2,9 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": { "dependsOn": ["^build"], "outputs": ["{projectRoot}/dist"], "cache": true },
+    "db:generate": {},
+    "db:migrate": {},
+    "db:up": {},
     "lint": { "dependsOn": ["^build"], "cache": true },
     "lint:fix": { "dependsOn": ["^build"], "cache": true }
   },
