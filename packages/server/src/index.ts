@@ -2,10 +2,13 @@ import { type Route, routes } from "@bachman-dev/api-types";
 import calVersionConstraint from "./util/calVersionConstraint.js";
 import collectSetRoutes from "./util/collectSetRoutes.js";
 import { fastify } from "fastify";
+import loadSecrets from "./util/loadSecrets.js";
 /* TODO: Create versioned routes using this as the config
 import routeVersion from "./util/routeVersion.js";
 */
 import validateRoutes from "./util/validateRoutes.js";
+
+await loadSecrets();
 
 const app = fastify({
   constraints: {

@@ -36,5 +36,5 @@
     // Completeness
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "eslint.config.mjs"]
+  "include": ["src/**/*.ts", "eslint.config.mjs", "drizzle.config.ts"]
 }
