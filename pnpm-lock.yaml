@@ -12,8 +12,8 @@ importers:
         specifier: 0.1.2
         version: 0.1.2(eslint@8.57.0)(typescript-eslint@7.15.0(eslint@8.57.0)(typescript@5.4.5))(typescript@5.4.5)
       '@eslint/js':
-        specifier: 9.6.0
-        version: 9.6.0
+        specifier: 9.8.0
+        version: 9.8.0
       '@nx/eslint':
         specifier: 19.4.1
         version: 19.4.1(@babel/traverse@7.24.6)(@types/node@20.14.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.4.1)
@@ -1174,8 +1174,8 @@ packages:
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@eslint/js@9.6.0':
-    resolution: {integrity: sha512-D9B0/3vNg44ZeWbYMpBoXqNP4j6eQD5vNwIlGAuFRRzK/WtT/jvDQW3Bi9kkf3PMDMlM7Yi+73VLUsn5bJcl8A==}
+  '@eslint/js@9.8.0':
+    resolution: {integrity: sha512-MfluB7EUfxXtv3i/++oh89uzAr4PDI4nn201hsp+qaXqsjAWzinlZEHEfPgAX4doIlKvPG/i0A9dpKxOLII8yA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@fastify/ajv-compiler@3.5.0':
@@ -4342,7 +4342,7 @@ snapshots:
 
   '@eslint/js@8.57.0': {}
 
-  '@eslint/js@9.6.0': {}
+  '@eslint/js@9.8.0': {}
 
   '@fastify/ajv-compiler@3.5.0':
     dependencies:
