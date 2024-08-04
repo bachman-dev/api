@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@types/node": "20.14.14",
-    "drizzle-kit": "0.22.8",
+    "drizzle-kit": "0.23.1",
     "tsup": "8.1.0",
     "typescript": "5.4.5"
   }
