@@ -24,7 +24,7 @@
     "eslint-config-prettier": "9.1.0",
     "nx": "19.4.1",
     "prettier": "3.3.3",
-    "typescript-eslint": "7.15.0"
+    "typescript-eslint": "7.18.0"
   },
   "packageManager": "pnpm@9.4.0"
 }
