@@ -24,7 +24,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "tsup": "8.2.4",
+    "tsup": "8.3.0",
     "typescript": "5.4.5"
   },
   "dependencies": {
