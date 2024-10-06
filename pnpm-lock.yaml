@@ -16,7 +16,7 @@ importers:
         version: 9.9.1
       '@nx/eslint':
         specifier: 19.6.4
-        version: 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
+        version: 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
       '@types/eslint__js':
         specifier: 8.42.3
         version: 8.42.3
@@ -80,8 +80,8 @@ importers:
         version: 3.23.8
     devDependencies:
       '@types/node':
-        specifier: 20.16.2
-        version: 20.16.2
+        specifier: 20.16.10
+        version: 20.16.10
       drizzle-kit:
         specifier: 0.24.2
         version: 0.24.2
@@ -1644,8 +1644,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@20.16.2':
-    resolution: {integrity: sha512-91s/n4qUPV/wg8eE9KHYW1kouTfDk2FPGjXbBMfRWP/2vg1rCXNQL1OCabwGs0XSdukuK+MwCDXE30QpSeMUhQ==}
+  '@types/node@20.16.10':
+    resolution: {integrity: sha512-vQUKgWTjEIRFCvK6CyriPH3MZYiYlNy0fKiEYHWbcoWLEgs4opurGGKlebrTLqdSMIbXImH6XExNiIyNUv3WpA==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -2277,6 +2277,7 @@ packages:
   eslint@8.57.0:
     resolution: {integrity: sha512-dZ6+mexnaTIbSBZWgou51U6OmzIhYM2VcNdtiTtI7qPNZm35Akpr0f6vtw3w1Kmn5PYo+tZVfh13WrhpS6oLqQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
 
   espree@9.6.1:
@@ -4668,9 +4669,9 @@ snapshots:
     transitivePeerDependencies:
       - nx
 
-  '@nrwl/js@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(nx@19.6.4)(typescript@5.4.5)':
+  '@nrwl/js@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(nx@19.6.4)(typescript@5.4.5)':
     dependencies:
-      '@nx/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(nx@19.6.4)(typescript@5.4.5)
+      '@nx/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(nx@19.6.4)(typescript@5.4.5)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4713,11 +4714,11 @@ snapshots:
       tslib: 2.6.2
       yargs-parser: 21.1.1
 
-  '@nx/eslint@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)':
+  '@nx/eslint@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)':
     dependencies:
       '@nx/devkit': 19.6.4(nx@19.6.4)
-      '@nx/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(nx@19.6.4)(typescript@5.4.5)
-      '@nx/linter': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
+      '@nx/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(nx@19.6.4)(typescript@5.4.5)
+      '@nx/linter': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
       eslint: 8.57.0
       semver: 7.6.2
       tslib: 2.6.2
@@ -4735,7 +4736,7 @@ snapshots:
       - supports-color
       - verdaccio
 
-  '@nx/js@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(nx@19.6.4)(typescript@5.4.5)':
+  '@nx/js@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(nx@19.6.4)(typescript@5.4.5)':
     dependencies:
       '@babel/core': 7.24.6
       '@babel/plugin-proposal-decorators': 7.24.6(@babel/core@7.24.6)
@@ -4744,7 +4745,7 @@ snapshots:
       '@babel/preset-env': 7.24.6(@babel/core@7.24.6)
       '@babel/preset-typescript': 7.24.6(@babel/core@7.24.6)
       '@babel/runtime': 7.24.6
-      '@nrwl/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(nx@19.6.4)(typescript@5.4.5)
+      '@nrwl/js': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(nx@19.6.4)(typescript@5.4.5)
       '@nx/devkit': 19.6.4(nx@19.6.4)
       '@nx/workspace': 19.6.4
       babel-plugin-const-enum: 1.2.0(@babel/core@7.24.6)
@@ -4764,7 +4765,7 @@ snapshots:
       ora: 5.3.0
       semver: 7.6.2
       source-map-support: 0.5.19
-      ts-node: 10.9.1(@types/node@20.16.2)(typescript@5.4.5)
+      ts-node: 10.9.1(@types/node@20.16.10)(typescript@5.4.5)
       tsconfig-paths: 4.2.0
       tslib: 2.6.2
     transitivePeerDependencies:
@@ -4778,9 +4779,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@nx/linter@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)':
+  '@nx/linter@19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)':
     dependencies:
-      '@nx/eslint': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.2)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
+      '@nx/eslint': 19.6.4(@babel/traverse@7.24.6)(@types/node@20.16.10)(@zkochan/js-yaml@0.0.7)(eslint@8.57.0)(nx@19.6.4)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4916,7 +4917,7 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@20.16.2':
+  '@types/node@20.16.10':
     dependencies:
       undici-types: 6.19.8
 
@@ -4924,7 +4925,7 @@ snapshots:
 
   '@types/ws@8.5.10':
     dependencies:
-      '@types/node': 20.16.2
+      '@types/node': 20.16.10
 
   '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
@@ -6542,14 +6543,14 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-node@10.9.1(@types/node@20.16.2)(typescript@5.4.5):
+  ts-node@10.9.1(@types/node@20.16.10)(typescript@5.4.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.16.2
+      '@types/node': 20.16.10
       acorn: 8.11.3
       acorn-walk: 8.3.2
       arg: 4.1.3
