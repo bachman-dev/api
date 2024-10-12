@@ -1,6 +1,5 @@
-.nx/cache
+.turbo
 node_modules
 dist
 .DS_Store
-bachman-dev-api-server-*.tgz
 .env
