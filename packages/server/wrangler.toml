@@ -1,0 +1,15 @@
+name = "api-bachman-dev"
+main = "./src/index.ts"
+compatibility_date = "2024-10-12"
+
+routes = [
+	{ pattern = "api.bachman.dev", custom_domain = true }
+]
+
+[observability]
+enabled = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "api-bachman-dev"
+database_id = "f9b22e3b-8dd2-4b42-9668-8aa227c3dc36"

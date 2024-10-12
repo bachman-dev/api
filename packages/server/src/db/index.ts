@@ -1,13 +1,6 @@
-import { type LibSQLDatabase, drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client";
+import { type DrizzleD1Database, drizzle } from "drizzle-orm/d1";
 import schema from "./schema.js";
 
-export function getDrizzle(): LibSQLDatabase<typeof schema> {
-  if (typeof process.env.TURSO_DB_URL === "undefined" || typeof process.env.TURSO_DB_TOKEN === "undefined") {
-    throw new Error("Turso DB URL and/or Token not defined.");
-  }
-
-  const sql = createClient({ url: process.env.TURSO_DB_URL, authToken: process.env.TURSO_DB_TOKEN });
-
-  return drizzle(sql, { schema });
+export function getDrizzle(d1Database: D1Database): DrizzleD1Database<typeof schema> {
+  return drizzle(d1Database, { schema });
 }

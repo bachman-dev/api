@@ -1,39 +1,35 @@
-import { type Route, routes } from "@bachman-dev/api-types";
-import calVersionConstraint from "./util/calVersionConstraint.js";
-import collectSetRoutes from "./util/collectSetRoutes.js";
-import { fastify } from "fastify";
-import loadSecrets from "./util/loadSecrets.js";
-/* TODO: Create versioned routes using this as the config
-import routeVersion from "./util/routeVersion.js";
-*/
-import validateRoutes from "./util/validateRoutes.js";
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
+import type { Bindings } from "./types/cloudflare.js";
+import { HttpStatusCode } from "@bachman-dev/api-types";
 
-await loadSecrets();
-
-const app = fastify({
-  constraints: {
-    version: calVersionConstraint,
+const route = createRoute({
+  method: "get",
+  path: "/",
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: z.object({
+            greeting: z.string(),
+          }),
+        },
+      },
+      description: "Say hello to the user",
+    },
   },
 });
 
-const setRoutes: Route[] = [];
+const app = new OpenAPIHono<{ Bindings: Bindings }>();
 
-/*
-TODO: Implement Routes
-void app.register(import("./v1/discord.js"));
-*/
+app.openapi(route, (context) =>
+  context.json(
+    {
+      greeting: "Hello, world!",
+    },
+    HttpStatusCode.Ok,
+  ),
+);
 
-app.addHook("onRoute", (routeOptions) => {
-  collectSetRoutes(routeOptions, routes, setRoutes);
-});
-
-app.addHook("onReady", () => {
-  validateRoutes(routes, setRoutes);
-});
-
-try {
-  await app.listen({ port: 3000, listenTextResolver: (address) => `Listening on ${address}` });
-} catch (err) {
-  app.log.error(err);
-  process.exit(1);
-}
+export default {
+  fetch: app.fetch,
+} satisfies ExportedHandler<Bindings>;

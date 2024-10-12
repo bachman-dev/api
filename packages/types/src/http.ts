@@ -404,8 +404,3 @@ export function isHttpStatusCode(value: unknown): value is HttpStatusCode {
 export type ResponseMap<Code extends HttpStatusCode, T> = {
   [K in Code]: T;
 };
-
-export interface Route {
-  method: "DELETE" | "GET" | "HEAD" | "OPTIONS" | "PATCH" | "POST" | "PUT";
-  path: string;
-}
