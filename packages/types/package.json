@@ -25,10 +25,10 @@
   "license": "ISC",
   "devDependencies": {
     "tsup": "8.3.0",
-    "typescript": "5.4.5"
+    "typescript": "5.6.3"
   },
   "dependencies": {
-    "@hono/zod-openapi": "0.16.4",
+    "@hono/zod-openapi": "^0.16.4",
     "zod": "^3.23.8"
   }
 }
