@@ -15,6 +15,7 @@
     // Modules
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "types": ["@cloudflare/workers-types"],
 
     // Emit
     "declaration": true,

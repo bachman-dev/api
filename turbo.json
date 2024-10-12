@@ -6,9 +6,20 @@
       "cache": true,
       "outputs": ["dist/**"]
     },
+    "check-types": {
+      "dependsOn": ["^build"]
+    },
     "db:generate": {},
     "db:migrate": {},
-    "db:up": {},
+    "deploy": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:cron": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": { "dependsOn": ["^build"], "cache": true },
     "lint:fix": { "dependsOn": ["^build"], "cache": true }
   }
