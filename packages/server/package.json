@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "description": "",
   "type": "module",
-  "main": "./dist/index.js",
   "scripts": {
     "build": "pnpm check-types && wrangler deploy --dry-run --outdir dist",
     "check-types": "tsc --noEmit",
