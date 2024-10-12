@@ -31,7 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "@bachman-dev/api-types": "workspace:*",
-    "@infisical/sdk": "^2.2.3",
+    "@infisical/sdk": "^3.0.0",
     "@libsql/client": "^0.14.0",
     "discord-api-types": "^0.37.85",
     "drizzle-orm": "^0.33.0",
