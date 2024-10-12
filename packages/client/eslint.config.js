@@ -16,17 +16,17 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         // Non-emitting tsconfig extended from tsconfig.json, including "src" folder, config files, tests, etc.
-        project: true,
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
   },
   {
-    files: ["**/*.?(m)js"],
+    files: ["**/*.js"],
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    files: ["**/*.?(m)js"],
+    files: ["**/*.js"],
     ...bachmanDev({ language: "javascript-in-typescript" }),
   },
   eslintConfigPrettier,

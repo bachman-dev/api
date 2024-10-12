@@ -7,13 +7,9 @@ export default function collectSetRoutes(
   setRoutes: Route[],
 ): void {
   console.log(contractRoutes);
-  let method: HTTPMethods = "GET";
-  if (Array.isArray(routeOptions.method)) {
-    method = routeOptions.method[0] ?? "GET";
-  } else {
-    // eslint-disable-next-line @typescript-eslint/prefer-destructuring
-    method = routeOptions.method;
-  }
+  const method: HTTPMethods = Array.isArray(routeOptions.method)
+    ? (routeOptions.method[0] ?? "GET")
+    : routeOptions.method;
   const checkedRoute: Route = {
     method: "GET",
     path: routeOptions.url,

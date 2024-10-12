@@ -11,22 +11,22 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
-  bachmanDev({ language: "typescript", allowConsole: true }),
+  bachmanDev({ language: "typescript" }),
   {
     languageOptions: {
       parserOptions: {
         // Non-emitting tsconfig extended from tsconfig.json, including "src" folder, config files, tests, etc.
-        project: true,
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
   },
   {
-    files: ["**/*.?(m)js"],
+    files: ["**/*.js"],
     ...tseslint.configs.disableTypeChecked,
   },
   {
-    files: ["**/*.?(m)js"],
+    files: ["**/*.js"],
     ...bachmanDev({ language: "javascript-in-typescript" }),
   },
   eslintConfigPrettier,
