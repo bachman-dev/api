@@ -1,35 +1,22 @@
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import type { Bindings } from "./types/cloudflare.js";
-import { HttpStatusCode } from "@bachman-dev/api-types";
+import { type ApiGetIndexResponse, HttpStatusCode } from "@bachman-dev/api-types";
+import type { Env } from "./types/cloudflare.js";
+import { Hono } from "hono";
 
-const route = createRoute({
-  method: "get",
-  path: "/",
-  responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: z.object({
-            greeting: z.string(),
-          }),
-        },
+const app = new Hono<{ Bindings: Env }>();
+
+app.get("/", (context) => {
+  const response = {
+    success: true,
+    versions: [
+      {
+        version: `v1`,
+        status: "active",
       },
-      description: "Say hello to the user",
-    },
-  },
+    ],
+  } satisfies ApiGetIndexResponse;
+  return context.json(response, HttpStatusCode.Ok);
 });
-
-const app = new OpenAPIHono<{ Bindings: Bindings }>();
-
-app.openapi(route, (context) =>
-  context.json(
-    {
-      greeting: "Hello, world!",
-    },
-    HttpStatusCode.Ok,
-  ),
-);
 
 export default {
   fetch: app.fetch,
-} satisfies ExportedHandler<Bindings>;
+} satisfies ExportedHandler<Env>;
