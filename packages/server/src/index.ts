@@ -1,4 +1,4 @@
-import { type ApiGetIndexResponse, HttpStatusCode } from "@bachman-dev/api-types";
+import { type ApiErrorResponse, type ApiGetIndexResponse, HttpStatusCode } from "@bachman-dev/api-types";
 import type { Env } from "./types/cloudflare.js";
 import { Hono } from "hono";
 
@@ -15,6 +15,17 @@ app.get("/", (context) => {
     ],
   } satisfies ApiGetIndexResponse;
   return context.json(response, HttpStatusCode.Ok);
+});
+
+app.notFound((context) => {
+  const response = {
+    success: false,
+    error: {
+      type: "NOT_FOUND",
+      message: `The requested reource at ${context.req.path} was not found`,
+    },
+  } satisfies ApiErrorResponse;
+  return context.json(response);
 });
 
 export default {
