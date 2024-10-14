@@ -1,4 +1,7 @@
+import type { ApiErrorResponse } from "./errors.js";
 import { z } from "zod";
+
+export type ApiResponse<T> = ApiErrorResponse | { data: T; success: true };
 
 export const apiVersion = z.object({
   version: z.string(),
@@ -9,15 +12,14 @@ export const apiVersion = z.object({
 export type ApiVersion = z.infer<typeof apiVersion>;
 
 export const apiGetIndexResponse = z.object({
-  success: z.literal(true),
   versions: z.array(apiVersion),
 });
 export type ApiGetIndexResponse = z.infer<typeof apiGetIndexResponse>;
 
-export const baseApiPostPutHeaders = z.object({
+export const apiBaseApiPostPutHeaders = z.object({
   "content-type": z.literal("application/json"),
 });
-export type BaseApiPostPutHeaders = z.infer<typeof baseApiPostPutHeaders>;
+export type ApiBaseApiPostPutHeaders = z.infer<typeof apiBaseApiPostPutHeaders>;
 
 export * from "./errors.js";
 export * from "./http.js";
