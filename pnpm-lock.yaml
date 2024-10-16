@@ -51,9 +51,9 @@ importers:
       '@bachman-dev/api-types':
         specifier: workspace:*
         version: link:../types
-      '@hono/zod-openapi':
-        specifier: 0.16.4
-        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
+      '@hono/zod-validator':
+        specifier: 0.4.1
+        version: 0.4.1(hono@4.6.5)(zod@3.23.8)
       drizzle-orm:
         specifier: 0.34.1
         version: 0.34.1(@cloudflare/workers-types@4.20241011.0)(@libsql/client@0.14.0)
@@ -79,9 +79,6 @@ importers:
 
   packages/types:
     dependencies:
-      '@hono/zod-openapi':
-        specifier: ^0.16.4
-        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -2462,14 +2459,7 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/zod-openapi@0.16.4(hono@4.6.5)(zod@3.23.8)':
-    dependencies:
-      '@asteasolutions/zod-to-openapi': 7.2.0(zod@3.23.8)
-      '@hono/zod-validator': 0.3.0(hono@4.6.5)(zod@3.23.8)
-      hono: 4.6.5
-      zod: 3.23.8
-
-  '@hono/zod-validator@0.3.0(hono@4.6.5)(zod@3.23.8)':
+  '@hono/zod-validator@0.4.1(hono@4.6.5)(zod@3.23.8)':
     dependencies:
       hono: 4.6.5
       zod: 3.23.8
