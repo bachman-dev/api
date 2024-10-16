@@ -44,9 +44,10 @@ function unknownToString(value: unknown): string {
   }
 }
 
-export function formatZodErrors(error: z.ZodError, issueArray: ApiValidationIssue[]): void {
+export function formatZodErrors(error: z.ZodError): ApiValidationIssue[] {
+  const issueArray: ApiValidationIssue[] = [];
   error.issues.forEach((issue) => {
-    let path = "";
+    let path = ``;
     issue.path.forEach((pathPart) => {
       if (typeof pathPart === "string") {
         path += `.${pathPart}`;
@@ -60,7 +61,7 @@ export function formatZodErrors(error: z.ZodError, issueArray: ApiValidationIssu
         break;
       case "invalid_arguments":
         issueArray.push({ path, issue: "Invalid function arguments, specific errors to follow" });
-        formatZodErrors(issue.argumentsError, issueArray);
+        issueArray.push(...formatZodErrors(issue.argumentsError));
         break;
       case "invalid_literal":
         issueArray.push({
@@ -70,42 +71,40 @@ export function formatZodErrors(error: z.ZodError, issueArray: ApiValidationIssu
         break;
       case "invalid_return_type":
         issueArray.push({ path, issue: "Invalid return type on function, specific errors to follow" });
-        formatZodErrors(issue.returnTypeError, issueArray);
+        issueArray.push(...formatZodErrors(issue.returnTypeError));
         break;
       case "invalid_union":
         issueArray.push({ path, issue: "Invalid union, specific errors to follow" });
         issue.unionErrors.forEach((unionError) => {
-          formatZodErrors(unionError, issueArray);
+          issueArray.push(...formatZodErrors(unionError));
         });
         break;
       default:
         issueArray.push({ path, issue: issue.message });
     }
   });
+  return issueArray;
 }
 
-export const apiErrorResponse = z.object({
-  success: z.literal(false),
-  error: z.discriminatedUnion("type", [
-    z.object({
-      type: z.literal("VALIDATION"),
-      message: z.string(),
-      issues: z.array(apiValidationIssue),
-    }),
-    z.object({
-      type: z.enum(["FORBIDDEN", "INTERNAL_SERVER_ERROR", "METHOD_NOT_ALLOWED", "NOT_FOUND", "UNAUTHORIZED"]),
-      message: z.string(),
-    }),
-    z.object({
-      type: z.literal("NOT_IMPLEMENTED"),
-      message: z.string(),
-      minVersion: z.number().min(1).optional(),
-    }),
-    z.object({
-      type: z.enum(["RATE_LIMITED", "SERVICE_UNAVAILABLE"]),
-      message: z.string(),
-      retryAfter: z.number().min(1),
-    }),
-  ]),
-});
-export type ApiErrorResponse = z.infer<typeof apiErrorResponse>;
+export const apiError = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("VALIDATION"),
+    message: z.string(),
+    issues: z.array(apiValidationIssue),
+  }),
+  z.object({
+    type: z.enum(["FORBIDDEN", "INTERNAL_SERVER_ERROR", "METHOD_NOT_ALLOWED", "NOT_FOUND", "UNAUTHORIZED"]),
+    message: z.string(),
+  }),
+  z.object({
+    type: z.literal("NOT_IMPLEMENTED"),
+    message: z.string(),
+    minVersion: z.string().optional(),
+  }),
+  z.object({
+    type: z.enum(["RATE_LIMITED", "SERVICE_UNAVAILABLE"]),
+    message: z.string(),
+    retryAfter: z.number().min(1),
+  }),
+]);
+export type ApiError = z.infer<typeof apiError>;

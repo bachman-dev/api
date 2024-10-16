@@ -1,0 +1,24 @@
+import { type ApiResponse, type ApiVersionData, HttpStatusCode } from "@bachman-dev/api-types";
+import type { Env } from "../types/cloudflare.js";
+import { Hono } from "hono";
+
+export const apiV1Data: ApiVersionData = {
+  version: "v1",
+  description: "The latest stable version; requests/responses data types are defined within the API",
+  status: "active",
+} as const;
+
+const app = new Hono<{ Bindings: Env }>();
+
+app.get("/", (context) => {
+  const response = {
+    success: true,
+    data: {
+      followUpUris: [],
+      version: apiV1Data,
+    },
+  } satisfies ApiResponse<"GET /:version">;
+  return context.json(response, HttpStatusCode.Ok);
+});
+
+export default app;

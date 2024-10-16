@@ -1,25 +1,34 @@
-import type { ApiErrorResponse } from "./errors.js";
+import type { ApiGetVersionResponse, ApiGetVersionsResponse } from "./versions/index.js";
+import type { ApiError } from "./errors.js";
+import { apiBaseResponse } from "./base.js";
 import { z } from "zod";
 
-export type ApiResponse<T> = ApiErrorResponse | { data: T; success: true };
-
-export const apiVersion = z.object({
-  version: z.string(),
-  status: z.enum(["active", "deprecated", "removed"]),
-  deprecationDate: z.date().optional(),
-  removalDate: z.date().optional(),
-});
-export type ApiVersion = z.infer<typeof apiVersion>;
-
-export const apiGetIndexResponse = z.object({
-  versions: z.array(apiVersion),
+export const apiGetIndexResponse = apiBaseResponse.extend({
+  message: z.string(),
 });
 export type ApiGetIndexResponse = z.infer<typeof apiGetIndexResponse>;
 
-export const apiBaseApiPostPutHeaders = z.object({
-  "content-type": z.literal("application/json"),
-});
-export type ApiBaseApiPostPutHeaders = z.infer<typeof apiBaseApiPostPutHeaders>;
+export interface ApiResponses {
+  "GET /": ApiGetIndexResponse;
+  "GET /:version": ApiGetVersionResponse;
+  "GET /versions": ApiGetVersionsResponse;
+}
 
+export interface ApiSuccessfulResponse<T extends keyof ApiResponses> {
+  data: ApiResponses[T];
+  success: true;
+  error?: never;
+}
+
+export interface ApiErrorResponse {
+  error: ApiError;
+  success: false;
+  data?: never;
+}
+
+export type ApiResponse<T extends keyof ApiResponses> = ApiErrorResponse | ApiSuccessfulResponse<T>;
+
+export * from "./base.js";
 export * from "./errors.js";
 export * from "./http.js";
+export * from "./versions/index.js";

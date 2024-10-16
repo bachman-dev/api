@@ -9,7 +9,7 @@
     "check-types": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "wrangler d1 migrations apply api-bachman-dev",
-    "deploy": "pnpm check-types && wrangler deploy",
+    "deploy": "pnpm check-types && wrangler deploy --minify",
     "dev": "wrangler dev",
     "dev:cron": "wrangler dev --test-scheduled",
     "lint": "eslint .",
