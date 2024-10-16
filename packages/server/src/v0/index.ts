@@ -1,4 +1,4 @@
-import { type ApiResponse, type ApiVersionData, HttpStatusCode } from "@bachman-dev/api-types";
+import { type ApiResponseBody, type ApiVersionData, HttpStatusCode } from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
 
@@ -14,10 +14,10 @@ app.get("/", (context) => {
   const response = {
     success: true,
     data: {
-      followUpUris: [],
       version: apiV0Data,
     },
-  } satisfies ApiResponse<"GET /:version">;
+    followUpUris: [],
+  } satisfies ApiResponseBody<"GET /:version">;
   return context.json(response, HttpStatusCode.Ok);
 });
 

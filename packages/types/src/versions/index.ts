@@ -1,4 +1,3 @@
-import { apiBaseResponse } from "../index.js";
 import { z } from "zod";
 
 export const apiVersion = z.string().startsWith("v");
@@ -13,12 +12,12 @@ export const apiVersionData = z.object({
 });
 export type ApiVersionData = z.infer<typeof apiVersionData>;
 
-export const apiGetVersionResponse = apiBaseResponse.extend({
+export const apiGetVersionResponse = z.object({
   version: apiVersionData,
 });
 export type ApiGetVersionResponse = z.infer<typeof apiGetVersionResponse>;
 
-export const apiGetVersionsResponse = apiBaseResponse.extend({
+export const apiGetVersionsResponse = z.object({
   versions: z.array(apiVersionData),
 });
 export type ApiGetVersionsResponse = z.infer<typeof apiGetVersionsResponse>;

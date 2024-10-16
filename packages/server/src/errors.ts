@@ -1,4 +1,4 @@
-import { type ApiErrorResponse, formatZodErrors, HttpStatusCode } from "@bachman-dev/api-types";
+import { type ApiErrorResponseBody, HttpStatusCode, formatZodErrors } from "@bachman-dev/api-types";
 import type { Env } from "./types/cloudflare.js";
 import type { Hook } from "@hono/zod-validator";
 
@@ -12,7 +12,7 @@ export const throwOnValidationError: Hook<unknown, { Bindings: Env }, string> = 
         message: "The request contained invalid data",
         issues: formatZodErrors(result.error),
       },
-    } satisfies ApiErrorResponse;
+    } satisfies ApiErrorResponseBody;
     return context.json(response, HttpStatusCode.BadRequest);
   }
 };

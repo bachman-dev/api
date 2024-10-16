@@ -1,34 +1,43 @@
 import type { ApiGetVersionResponse, ApiGetVersionsResponse } from "./versions/index.js";
 import type { ApiError } from "./errors.js";
-import { apiBaseResponse } from "./base.js";
 import { z } from "zod";
 
-export const apiGetIndexResponse = apiBaseResponse.extend({
+export * from "./errors.js";
+export * from "./http.js";
+export * from "./versions/index.js";
+
+export const apiGetIndexResponse = z.object({
   message: z.string(),
 });
 export type ApiGetIndexResponse = z.infer<typeof apiGetIndexResponse>;
 
-export interface ApiResponses {
+export const apiFollowUpUri = z.object({
+  method: z.enum(["DELETE", "GET", "POST", "PUT"]),
+  uri: z.string(),
+  description: z.string(),
+});
+export type ApiFollowUpUri = z.infer<typeof apiFollowUpUri>;
+
+export type ApiEndpoints = "GET /:version" | "GET /" | "GET /versions";
+
+export interface ApiResponseBodies {
   "GET /": ApiGetIndexResponse;
   "GET /:version": ApiGetVersionResponse;
   "GET /versions": ApiGetVersionsResponse;
 }
 
-export interface ApiSuccessfulResponse<T extends keyof ApiResponses> {
-  data: ApiResponses[T];
+export interface ApiSuccessfulResponseBody<T extends ApiEndpoints> {
+  data: ApiResponseBodies[T];
+  followUpUris: ApiFollowUpUri[];
   success: true;
   error?: never;
 }
 
-export interface ApiErrorResponse {
+export interface ApiErrorResponseBody {
   error: ApiError;
   success: false;
   data?: never;
+  followUpUris?: never;
 }
 
-export type ApiResponse<T extends keyof ApiResponses> = ApiErrorResponse | ApiSuccessfulResponse<T>;
-
-export * from "./base.js";
-export * from "./errors.js";
-export * from "./http.js";
-export * from "./versions/index.js";
+export type ApiResponseBody<T extends ApiEndpoints> = ApiErrorResponseBody | ApiSuccessfulResponseBody<T>;

@@ -1,4 +1,4 @@
-import { type ApiResponse, HttpStatusCode } from "@bachman-dev/api-types";
+import { type ApiResponseBody, HttpStatusCode } from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
 import { apiV0Data } from "../v0/index.js";
@@ -12,15 +12,15 @@ app.get("/", (context) => {
     success: true,
     data: {
       versions,
-      followUpUris: versions.map((version) => {
-        return {
-          method: "GET",
-          uri: `/${version.version}`,
-          description: `Get information about the ${version.version} API version`,
-        };
-      }),
     },
-  } satisfies ApiResponse<"GET /versions">;
+    followUpUris: versions.map((version) => {
+      return {
+        method: "GET",
+        uri: `/${version.version}`,
+        description: `Get information about the ${version.version} API version`,
+      };
+    }),
+  } satisfies ApiResponseBody<"GET /versions">;
   return context.json(response, HttpStatusCode.Ok);
 });
 
