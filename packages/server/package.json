@@ -23,7 +23,7 @@
     "@bachman-dev/api-types": "workspace:*",
     "@hono/zod-validator": "0.4.1",
     "drizzle-orm": "0.34.1",
-    "hono": "4.6.4",
+    "hono": "4.6.5",
     "zod": "3.23.8"
   },
   "devDependencies": {

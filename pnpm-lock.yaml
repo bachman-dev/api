@@ -51,15 +51,15 @@ importers:
       '@bachman-dev/api-types':
         specifier: workspace:*
         version: link:../types
-      '@hono/zod-validator':
-        specifier: 0.4.1
-        version: 0.4.1(hono@4.6.4)(zod@3.23.8)
+      '@hono/zod-openapi':
+        specifier: 0.16.4
+        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
       drizzle-orm:
         specifier: 0.34.1
         version: 0.34.1(@cloudflare/workers-types@4.20241011.0)(@libsql/client@0.14.0)
       hono:
-        specifier: 4.6.4
-        version: 4.6.4
+        specifier: 4.6.5
+        version: 4.6.5
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -79,6 +79,9 @@ importers:
 
   packages/types:
     dependencies:
+      '@hono/zod-openapi':
+        specifier: ^0.16.4
+        version: 0.16.4(hono@4.6.5)(zod@3.23.8)
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -1464,8 +1467,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  hono@4.6.4:
-    resolution: {integrity: sha512-T5WqBkTOcIQblqBKB5mpzaH/A+dSpvVe938xZJCHOmOuYfF7DSwE/9/10+BMvwSPq9N/f6LiQ38HxrZSQOsXKw==}
+  hono@4.6.5:
+    resolution: {integrity: sha512-qsmN3V5fgtwdKARGLgwwHvcdLKursMd+YOt69eGpl1dUCJb8mCd7hZfyZnBYjxCegBG7qkJRQRUy2oO25yHcyQ==}
     engines: {node: '>=16.9.0'}
 
   human-signals@2.1.0:
@@ -2459,9 +2462,16 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/zod-validator@0.4.1(hono@4.6.4)(zod@3.23.8)':
+  '@hono/zod-openapi@0.16.4(hono@4.6.5)(zod@3.23.8)':
     dependencies:
-      hono: 4.6.4
+      '@asteasolutions/zod-to-openapi': 7.2.0(zod@3.23.8)
+      '@hono/zod-validator': 0.3.0(hono@4.6.5)(zod@3.23.8)
+      hono: 4.6.5
+      zod: 3.23.8
+
+  '@hono/zod-validator@0.3.0(hono@4.6.5)(zod@3.23.8)':
+    dependencies:
+      hono: 4.6.5
       zod: 3.23.8
 
   '@humanfs/core@0.19.0': {}
@@ -3184,7 +3194,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.6.4: {}
+  hono@4.6.5: {}
 
   human-signals@2.1.0: {}
 
