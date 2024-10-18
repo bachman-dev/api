@@ -88,7 +88,7 @@ export function formatZodErrors(error: z.ZodError): ApiValidationIssue[] {
 
 export const apiError = z.discriminatedUnion("type", [
   z.object({
-    type: z.literal("VALIDATION"),
+    type: z.literal("BAD_REQUEST"),
     message: z.string(),
     issues: z.array(apiValidationIssue),
   }),

@@ -8,7 +8,7 @@ export const throwOnValidationError: Hook<unknown, { Bindings: Env }, string> = 
     const response = {
       success: false,
       error: {
-        type: "VALIDATION",
+        type: "BAD_REQUEST",
         message: "The request contained invalid data",
         issues: formatZodErrors(result.error),
       },
