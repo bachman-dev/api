@@ -6,6 +6,8 @@ export const twitchClients = sqliteTable("twitch_clients", {
   name: text("name").notNull(),
   clientSecret: text("client_secret", { length: 30 }).notNull(),
 });
+export type NewTwitchClient = typeof twitchClients.$inferInsert;
+export type TwitchClient = typeof twitchClients.$inferSelect;
 
 export const twitchClientStates = sqliteTable("twitch_client_states", {
   state: text("state").primaryKey(),
@@ -15,6 +17,8 @@ export const twitchClientStates = sqliteTable("twitch_client_states", {
   status: text("status", { enum: ["pending", "completed", "cancelled"] }).notNull(),
   accessToken: text("access_token"),
 });
+export type NewTwitchClientState = typeof twitchClientStates.$inferInsert;
+export type TwitchClientState = typeof twitchClientStates.$inferSelect;
 
 export const twitchClientRelations = relations(twitchClients, ({ many }) => {
   return {
