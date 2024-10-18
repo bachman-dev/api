@@ -39,6 +39,18 @@ app.notFound((context) => {
   return context.json(response, HttpStatusCode.NotFound);
 });
 
+app.onError((error, context) => {
+  const response = {
+    success: false,
+    error: {
+      type: "INTERNAL_SERVER_ERROR",
+      message: "An error was encountered while handling the request; it's been logged, and we'll look into it ASAP",
+    },
+  } satisfies ApiErrorResponseBody;
+  console.log(error);
+  return context.json(response, HttpStatusCode.InternalServerError);
+});
+
 export default {
   fetch: app.fetch,
 } satisfies ExportedHandler<Env>;
