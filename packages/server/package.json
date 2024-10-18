@@ -9,7 +9,7 @@
     "check-types": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "wrangler d1 migrations apply api-bachman-dev",
-    "deploy": "pnpm check-types && wrangler deploy",
+    "deploy": "pnpm check-types && wrangler deploy --minify",
     "dev": "wrangler dev",
     "dev:cron": "wrangler dev --test-scheduled",
     "lint": "eslint .",
@@ -21,7 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "@bachman-dev/api-types": "workspace:*",
-    "@hono/zod-openapi": "0.16.4",
+    "@hono/zod-validator": "0.4.1",
     "drizzle-orm": "0.34.1",
     "hono": "4.6.5",
     "zod": "3.23.8"
