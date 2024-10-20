@@ -1,6 +1,7 @@
 import { type ApiResponseBody, type ApiVersionData, HttpStatusCode } from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
+import twitch from "./twitch.js";
 
 export const apiV1Data: ApiVersionData = {
   name: "v1",
@@ -33,5 +34,7 @@ app.get("/", (context) => {
   } satisfies ApiResponseBody<"GET /:version">;
   return context.json(response, HttpStatusCode.Ok);
 });
+
+app.route("/twitch", twitch);
 
 export default app;

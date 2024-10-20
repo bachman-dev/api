@@ -91,3 +91,5 @@ app.get("/", (context) => {
   } satisfies ApiSuccessfulResponseBody<"GET /v1/twitch">;
   return context.json(response, HttpStatusCode.Ok);
 });
+
+export default app;
