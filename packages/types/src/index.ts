@@ -1,10 +1,10 @@
 import type {
   ApiGetV1TwitchIndexResponse,
-  ApiGetV1TwitchStateParams,
-  ApiGetV1TwitchStateResponse,
-  ApiPostV1TwitchStateBody,
-  ApiPostV1TwitchStateHeaders,
-  ApiPostV1TwitchStateResponse,
+  ApiGetV1TwitchSessionParams,
+  ApiGetV1TwitchSessionResponse,
+  ApiPostV1TwitchSessionBody,
+  ApiPostV1TwitchSessionHeaders,
+  ApiPostV1TwitchSessionResponse,
 } from "./v1/twitch.js";
 import type { ApiGetVersionResponse, ApiGetVersionsResponse } from "./versions/index.js";
 import type { ApiError } from "./errors.js";
@@ -32,12 +32,12 @@ export type ApiEndpoints =
   | "GET /:version"
   | "GET /"
   | "GET /v1/twitch"
-  | "GET /v1/twitch/state/:id"
+  | "GET /v1/twitch/session/:id"
   | "GET /versions"
-  | "POST /v1/twitch/state";
+  | "POST /v1/twitch/session";
 
 export interface ApiRequestParams {
-  "GET /v1/twitch/state/:id": ApiGetV1TwitchStateParams;
+  "GET /v1/twitch/session/:id": ApiGetV1TwitchSessionParams;
 }
 
 export interface ApiRequestQueries {
@@ -45,11 +45,11 @@ export interface ApiRequestQueries {
 }
 
 export interface ApiRequestHeaders {
-  "POST /v1/twitch/state": ApiPostV1TwitchStateHeaders;
+  "POST /v1/twitch/state": ApiPostV1TwitchSessionHeaders;
 }
 
 export interface ApiRequestBodies {
-  "POST /v1/twitch/state": ApiPostV1TwitchStateBody;
+  "POST /v1/twitch/session": ApiPostV1TwitchSessionBody;
 }
 
 export interface ApiRequestOptions<T extends ApiEndpoints> {
@@ -63,9 +63,9 @@ export interface ApiResponseBodies {
   "GET /": ApiGetIndexResponse;
   "GET /:version": ApiGetVersionResponse;
   "GET /v1/twitch": ApiGetV1TwitchIndexResponse;
-  "GET /v1/twitch/state/:id": ApiGetV1TwitchStateResponse;
+  "GET /v1/twitch/session/:id": ApiGetV1TwitchSessionResponse;
   "GET /versions": ApiGetVersionsResponse;
-  "POST /v1/twitch/state": ApiPostV1TwitchStateResponse;
+  "POST /v1/twitch/session": ApiPostV1TwitchSessionResponse;
 }
 
 export interface ApiSuccessfulResponseBody<T extends ApiEndpoints> {
