@@ -25,6 +25,42 @@ export const apiFollowUpUri = z.object({
   method: z.enum(["DELETE", "GET", "POST", "PUT"]),
   uri: z.string(),
   description: z.string(),
+  params: z
+    .record(
+      z.string(),
+      z.object({
+        type: z.enum(["string", "boolean", "number"]),
+        description: z.string(),
+      }),
+    )
+    .optional(),
+  query: z
+    .record(
+      z.string(),
+      z.object({
+        type: z.enum(["string", "boolean", "number"]),
+        description: z.string(),
+      }),
+    )
+    .optional(),
+  headers: z
+    .record(
+      z.string(),
+      z.object({
+        type: z.enum(["string", "boolean", "number"]),
+        description: z.string(),
+      }),
+    )
+    .optional(),
+  body: z
+    .record(
+      z.string(),
+      z.object({
+        type: z.union([z.enum(["string", "boolean", "number"]), z.string()]),
+        description: z.string(),
+      }),
+    )
+    .optional(),
 });
 export type ApiFollowUpUri = z.infer<typeof apiFollowUpUri>;
 
