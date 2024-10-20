@@ -1,3 +1,4 @@
+import { apiBasePostPutHeaders } from "../base.js";
 import { z } from "zod";
 
 export const apiTwitchOAuthState = z.intersection(
@@ -7,7 +8,7 @@ export const apiTwitchOAuthState = z.intersection(
   z.discriminatedUnion("status", [
     z.object({ status: z.literal("pending"), redirectUrl: z.string().url() }),
     z.object({ status: z.literal("complete"), accessToken: z.string() }),
-    z.object({ status: z.literal("cancelled"), reason: z.string().optional() }),
+    z.object({ status: z.literal("canceled"), reason: z.string().optional() }),
   ]),
 );
 export type ApiTwitchOAuthState = z.infer<typeof apiTwitchOAuthState>;
@@ -19,19 +20,30 @@ export const apiGetV1TwitchIndexResponse = z.object({
 });
 export type ApiGetV1TwitchIndexResponse = z.infer<typeof apiGetV1TwitchIndexResponse>;
 
-// POST /v1/twitch/redirect/:clientId
+//GET /v1/twitch/state/:id
 
-export const apiPostV1TwitchRedirectParams = z.object({
-  clientId: z.string(),
+export const apiGetV1TwitchStateParams = z.object({
+  id: z.string().uuid(),
 });
-export type ApiPostV1TwitchRedirectParams = z.infer<typeof apiPostV1TwitchRedirectParams>;
+export type ApiGetV1TwitchStateParams = z.infer<typeof apiGetV1TwitchStateParams>;
 
-export const apiPostV1TwitchRedirectBody = z.object({
-  stateId: z.string().uuid(),
-});
-export type ApiPostV1TwitchRedirectBody = z.infer<typeof apiPostV1TwitchRedirectBody>;
-
-export const apiPostV1TwitchRedirectResponse = z.object({
+export const apiGetV1TwitchStateResponse = z.object({
   state: apiTwitchOAuthState,
 });
-export type ApiPostV1TwitchRedirectResponse = z.infer<typeof apiPostV1TwitchRedirectResponse>;
+export type ApiGetV1TwitchStateResponse = z.infer<typeof apiGetV1TwitchStateResponse>;
+
+// POST /v1/twitch/state
+
+export const apiPostV1TwitchStateHeaders = apiBasePostPutHeaders;
+export type ApiPostV1TwitchStateHeaders = z.infer<typeof apiPostV1TwitchStateHeaders>;
+
+export const apiPostV1TwitchStateBody = z.object({
+  clientId: z.string(),
+  stateId: z.string().uuid(),
+});
+export type ApiPostV1TwitchStateBody = z.infer<typeof apiPostV1TwitchStateBody>;
+
+export const apiPostV1TwitchStateResponse = z.object({
+  state: apiTwitchOAuthState,
+});
+export type ApiPostV1TwitchStateResponse = z.infer<typeof apiPostV1TwitchStateResponse>;
