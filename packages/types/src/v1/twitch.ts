@@ -4,10 +4,11 @@ import { z } from "zod";
 export const apiTwitchOAuthSession = z.intersection(
   z.object({
     id: z.string().uuid(),
+    expires: z.string().datetime(),
   }),
   z.discriminatedUnion("status", [
     z.object({ status: z.literal("pending"), redirectUrl: z.string().url() }),
-    z.object({ status: z.literal("complete"), accessToken: z.string() }),
+    z.object({ status: z.literal("complete"), accessToken: z.string().nullable() }),
     z.object({ status: z.literal("canceled"), reason: z.string().optional() }),
   ]),
 );

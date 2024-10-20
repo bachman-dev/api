@@ -3,7 +3,7 @@ import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
 
 export const apiV0Data: ApiVersionData = {
-  version: "v0",
+  name: "v0",
   description: "Unstable, bleeding edge, and any endpoints with external data type definitions",
   status: "active",
 } as const;

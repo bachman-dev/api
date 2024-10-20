@@ -3,13 +3,26 @@ import { z } from "zod";
 export const apiVersion = z.string().startsWith("v");
 export type ApiVersion = z.infer<typeof apiVersion>;
 
-export const apiVersionData = z.object({
-  version: apiVersion,
-  description: z.string(),
-  status: z.enum(["active", "deprecated", "removed"]),
-  deprecationDate: z.date().optional(),
-  removalDate: z.date().optional(),
-});
+export const apiVersionData = z.intersection(
+  z.object({
+    name: apiVersion,
+    description: z.string(),
+  }),
+  z.discriminatedUnion("status", [
+    z.object({
+      status: z.literal("active"),
+    }),
+    z.object({
+      status: z.literal("deprecated"),
+      deprecationDate: z.string().datetime(),
+    }),
+    z.object({
+      status: z.literal("removed"),
+      deprecationDate: z.string().datetime(),
+      removalDate: z.string().datetime(),
+    }),
+  ]),
+);
 export type ApiVersionData = z.infer<typeof apiVersionData>;
 
 export const apiGetVersionResponse = z.object({
