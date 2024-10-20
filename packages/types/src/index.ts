@@ -25,6 +25,13 @@ export const apiFollowUpUri = z.object({
   method: z.enum(["DELETE", "GET", "POST", "PUT"]),
   uri: z.string(),
   description: z.string(),
+  response: z.record(
+    z.string(),
+    z.object({
+      type: z.union([z.enum(["string", "boolean", "number"]), z.string()]),
+      description: z.string(),
+    }),
+  ),
   params: z
     .record(
       z.string(),
