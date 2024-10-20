@@ -30,6 +30,7 @@ export const apiFollowUpUri = z.object({
     z.object({
       type: z.union([z.enum(["string", "boolean", "number"]), z.string()]),
       description: z.string(),
+      required: z.boolean().optional(),
     }),
   ),
   params: z
@@ -38,6 +39,7 @@ export const apiFollowUpUri = z.object({
       z.object({
         type: z.enum(["string", "boolean", "number"]),
         description: z.string(),
+        required: z.boolean().optional(),
       }),
     )
     .optional(),
@@ -47,6 +49,7 @@ export const apiFollowUpUri = z.object({
       z.object({
         type: z.enum(["string", "boolean", "number"]),
         description: z.string(),
+        required: z.boolean().optional(),
       }),
     )
     .optional(),
@@ -56,6 +59,7 @@ export const apiFollowUpUri = z.object({
       z.object({
         type: z.enum(["string", "boolean", "number"]),
         description: z.string(),
+        required: z.boolean().optional(),
       }),
     )
     .optional(),
@@ -65,6 +69,7 @@ export const apiFollowUpUri = z.object({
       z.object({
         type: z.union([z.enum(["string", "boolean", "number"]), z.string()]),
         description: z.string(),
+        required: z.boolean().optional(),
       }),
     )
     .optional(),
