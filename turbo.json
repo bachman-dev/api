@@ -9,8 +9,12 @@
     "check-types": {
       "dependsOn": ["^build"]
     },
-    "db:generate": {},
-    "db:migrate": {},
+    "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false
+    },
     "deploy": {},
     "dev": {
       "cache": false,
