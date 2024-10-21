@@ -4,11 +4,25 @@ import { z } from "zod";
 export const apiTwitchOAuthSession = z.intersection(
   z.object({
     id: z.string().uuid(),
+    clientId: z.string().uuid(),
+    redirectUri: z.string().url(),
+    scopes: z.array(z.string()),
     expires: z.string().datetime(),
   }),
   z.discriminatedUnion("status", [
-    z.object({ status: z.literal("pending"), redirectUrl: z.string().url() }),
-    z.object({ status: z.literal("complete"), accessToken: z.string().nullable() }),
+    z.object({ status: z.literal("pending"), loginUrl: z.string().url() }),
+    z.object({
+      status: z.literal("complete"),
+      oauth: z
+        .object({
+          access_token: z.string(),
+          expires_in: z.number(),
+          refresh_token: z.string(),
+          scope: z.array(z.string()),
+          token_type: z.literal("bearer"),
+        })
+        .nullable(),
+    }),
     z.object({ status: z.literal("canceled"), reason: z.string().optional() }),
   ]),
 );
@@ -41,6 +55,8 @@ export type ApiPostV1TwitchSessionHeaders = z.infer<typeof apiPostV1TwitchSessio
 export const apiPostV1TwitchSessionBody = z.object({
   clientId: z.string(),
   sessionId: z.string().uuid(),
+  redirectUri: z.string().url(),
+  scopes: z.array(z.string()),
 });
 export type ApiPostV1TwitchSessionBody = z.infer<typeof apiPostV1TwitchSessionBody>;
 

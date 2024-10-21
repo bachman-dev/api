@@ -9,24 +9,26 @@ export const twitchClients = sqliteTable("twitch_clients", {
 export type NewTwitchClient = typeof twitchClients.$inferInsert;
 export type TwitchClient = typeof twitchClients.$inferSelect;
 
-export const twitchClientStates = sqliteTable("twitch_client_states", {
-  state: text("state").primaryKey(),
+export const twitchClientSessions = sqliteTable("twitch_client_sessions", {
+  id: text("id").primaryKey(),
   clientId: text("client_id", { length: 30 })
     .notNull()
     .references(() => twitchClients.clientId),
-  status: text("status", { enum: ["pending", "completed", "cancelled"] }).notNull(),
+  redirectUri: text("redirect_uri").notNull(),
+  scopes: text("scopes").notNull(),
+  status: text("status", { enum: ["pending", "completed", "canceled"] }).notNull(),
   accessToken: text("access_token"),
 });
-export type NewTwitchClientState = typeof twitchClientStates.$inferInsert;
-export type TwitchClientState = typeof twitchClientStates.$inferSelect;
+export type NewTwitchClientSession = typeof twitchClientSessions.$inferInsert;
+export type TwitchClientSession = typeof twitchClientSessions.$inferSelect;
 
 export const twitchClientRelations = relations(twitchClients, ({ many }) => {
   return {
-    states: many(twitchClientStates),
+    sessions: many(twitchClientSessions),
   };
 });
 
-export const twitchClientStatesRelations = relations(twitchClientStates, ({ one }) => {
+export const twitchClientSessionsRelations = relations(twitchClientSessions, ({ one }) => {
   return {
     client: one(twitchClients),
   };
@@ -34,9 +36,9 @@ export const twitchClientStatesRelations = relations(twitchClientStates, ({ one 
 
 const schema = {
   twitchClients,
-  twitchClientStates,
+  twitchClientSessions,
   twitchClientRelations,
-  twitchClientStatesRelations,
+  twitchClientSessionsRelations,
 };
 
 export default schema;
