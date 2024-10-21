@@ -18,45 +18,6 @@ app.get("/", (context) => {
         method: "GET",
         uri: "/:version",
         description: "Get information about a specific API Version",
-        params: {
-          version: {
-            type: ["string"],
-            description: "The name of the API Version to get",
-            values: versions.map((version) => version.name),
-            required: true,
-          },
-        },
-        response: {
-          version: {
-            type: ["object"],
-            description: "Information about the Version",
-            required: true,
-          },
-          "version.name": {
-            type: ["string"],
-            description: "The name of the API Version",
-            required: true,
-          },
-          "version.description": {
-            type: ["string"],
-            description: "Description of the API Version",
-            required: true,
-          },
-          "version.status": {
-            type: ["string"],
-            description: "The status of the API Version",
-            values: ["active", "deprecated", "removed"],
-            required: true,
-          },
-          "version.deprecationDate": {
-            type: ["string"],
-            description: `The date that the API Version was deprecated; only present on "deprecated" and "removed" API Version`,
-          },
-          "version.removalDate": {
-            type: ["string"],
-            description: `The date that the API Version was removed; only present on "removed" API Version`,
-          },
-        },
       },
     ],
   } satisfies ApiResponseBody<"GET /versions">;

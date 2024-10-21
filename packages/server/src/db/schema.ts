@@ -1,4 +1,4 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 
 export const twitchClients = sqliteTable("twitch_clients", {
@@ -15,9 +15,11 @@ export const twitchClientSessions = sqliteTable("twitch_client_sessions", {
     .notNull()
     .references(() => twitchClients.clientId),
   redirectUri: text("redirect_uri").notNull(),
+  loginUrl: text("login_url").notNull(),
   scopes: text("scopes").notNull(),
-  status: text("status", { enum: ["pending", "completed", "canceled"] }).notNull(),
-  accessToken: text("access_token"),
+  expires: integer("expires", { mode: "timestamp" }).notNull(),
+  status: text("status", { enum: ["pending", "complete", "canceled"] }).notNull(),
+  cancelReason: text("cancel_reason"),
 });
 export type NewTwitchClientSession = typeof twitchClientSessions.$inferInsert;
 export type TwitchClientSession = typeof twitchClientSessions.$inferSelect;
@@ -30,7 +32,10 @@ export const twitchClientRelations = relations(twitchClients, ({ many }) => {
 
 export const twitchClientSessionsRelations = relations(twitchClientSessions, ({ one }) => {
   return {
-    client: one(twitchClients),
+    client: one(twitchClients, {
+      fields: [twitchClientSessions.clientId],
+      references: [twitchClients.clientId],
+    }),
   };
 });
 

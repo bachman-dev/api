@@ -25,59 +25,6 @@ export const apiFollowUpUri = z.object({
   method: z.enum(["DELETE", "GET", "POST", "PUT"]),
   uri: z.string(),
   description: z.string(),
-  response: z.record(
-    z.string(),
-    z.object({
-      type: z.array(z.enum(["string", "boolean", "number", "object", "null"])),
-      description: z.string(),
-      values: z.array(z.union([z.string(), z.boolean(), z.number(), z.null()])).optional(),
-      required: z.boolean().optional(),
-    }),
-  ),
-  params: z
-    .record(
-      z.string(),
-      z.object({
-        type: z.array(z.enum(["string", "boolean", "number"])),
-        description: z.string(),
-        values: z.array(z.union([z.string(), z.boolean(), z.number()])).optional(),
-        required: z.boolean().optional(),
-      }),
-    )
-    .optional(),
-  query: z
-    .record(
-      z.string(),
-      z.object({
-        type: z.array(z.enum(["string", "boolean", "number"])),
-        description: z.string(),
-        values: z.array(z.union([z.string(), z.boolean(), z.number()])).optional(),
-        required: z.boolean().optional(),
-      }),
-    )
-    .optional(),
-  headers: z
-    .record(
-      z.string(),
-      z.object({
-        type: z.array(z.enum(["string", "boolean", "number"])),
-        values: z.array(z.union([z.string(), z.boolean(), z.number()])).optional(),
-        description: z.string(),
-        required: z.boolean().optional(),
-      }),
-    )
-    .optional(),
-  body: z
-    .record(
-      z.string(),
-      z.object({
-        type: z.array(z.enum(["string", "boolean", "number", "object", "null"])),
-        description: z.string(),
-        values: z.array(z.union([z.string(), z.boolean(), z.number(), z.null()])).optional(),
-        required: z.boolean().optional(),
-      }),
-    )
-    .optional(),
 });
 export type ApiFollowUpUri = z.infer<typeof apiFollowUpUri>;
 

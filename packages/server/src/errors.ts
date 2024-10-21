@@ -10,7 +10,7 @@ export const throwOnValidationError: Hook<unknown, { Bindings: Env }, string> = 
       error: {
         type: "BAD_REQUEST",
         message: "The request contained invalid data",
-        issues: formatZodErrors(result.error),
+        issues: formatZodErrors(result.target, result.error),
       },
     } satisfies ApiErrorResponseBody;
     return context.json(response, HttpStatusCode.BadRequest);

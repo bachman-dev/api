@@ -44,16 +44,25 @@ function unknownToString(value: unknown): string {
   }
 }
 
-export function formatZodErrors(error: z.ZodError): ApiValidationIssue[] {
+export function formatZodErrors(
+  location: "cookie" | "form" | "header" | "json" | "param" | "query",
+  error: z.ZodError,
+): ApiValidationIssue[] {
   const issueArray: ApiValidationIssue[] = [];
   error.issues.forEach((issue) => {
-    let path = ``;
+    let path = `${location}: `;
+    let index = 0;
     issue.path.forEach((pathPart) => {
       if (typeof pathPart === "string") {
-        path += `.${pathPart}`;
+        if (index === 0) {
+          path += pathPart;
+        } else {
+          path += `.${pathPart}`;
+        }
       } else {
         path += `[${pathPart}]`;
       }
+      index += 1;
     });
     switch (issue.code) {
       case "custom":
@@ -61,7 +70,7 @@ export function formatZodErrors(error: z.ZodError): ApiValidationIssue[] {
         break;
       case "invalid_arguments":
         issueArray.push({ path, issue: "Invalid function arguments, specific errors to follow" });
-        issueArray.push(...formatZodErrors(issue.argumentsError));
+        issueArray.push(...formatZodErrors(location, issue.argumentsError));
         break;
       case "invalid_literal":
         issueArray.push({
@@ -71,12 +80,12 @@ export function formatZodErrors(error: z.ZodError): ApiValidationIssue[] {
         break;
       case "invalid_return_type":
         issueArray.push({ path, issue: "Invalid return type on function, specific errors to follow" });
-        issueArray.push(...formatZodErrors(issue.returnTypeError));
+        issueArray.push(...formatZodErrors(location, issue.returnTypeError));
         break;
       case "invalid_union":
         issueArray.push({ path, issue: "Invalid union, specific errors to follow" });
         issue.unionErrors.forEach((unionError) => {
-          issueArray.push(...formatZodErrors(unionError));
+          issueArray.push(...formatZodErrors(location, unionError));
         });
         break;
       default:
