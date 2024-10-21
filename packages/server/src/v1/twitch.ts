@@ -1,8 +1,16 @@
-import { type ApiSuccessfulResponseBody, HttpStatusCode, apiGetV1TwitchSessionParams } from "@bachman-dev/api-types";
+import {
+  type ApiErrorResponseBody,
+  type ApiSuccessfulResponseBody,
+  HttpStatusCode,
+  apiGetV1TwitchSessionParams,
+  apiPostV1TwitchSessionBody,
+  apiPostV1TwitchSessionHeaders,
+} from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
 import { getDrizzle } from "../db/index.js";
 import { throwOnValidationError } from "../errors.js";
+import { twitchClientSessions } from "../db/schema.js";
 import { zValidator } from "@hono/zod-validator";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -104,5 +112,87 @@ app.get("/session/:id", zValidator("param", apiGetV1TwitchSessionParams, throwOn
     }
   }
 });
+
+app.post(
+  "/session",
+  zValidator("header", apiPostV1TwitchSessionHeaders, throwOnValidationError),
+  zValidator("json", apiPostV1TwitchSessionBody, throwOnValidationError),
+  async (context) => {
+    const json = context.req.valid("json");
+    const drizzle = getDrizzle(context.env.DB);
+    const twitchClient = await drizzle.query.twitchClients.findFirst({
+      where: (twitchClient, { eq }) => eq(twitchClient.clientId, json.clientId),
+    });
+    if (typeof twitchClient === "undefined") {
+      const response = {
+        success: false,
+        error: {
+          type: "BAD_REQUEST",
+          message: "The request contained invalid data",
+          issues: [
+            {
+              path: "json: clientId",
+              issue: "Client ID is not recognized",
+            },
+          ],
+        },
+      } satisfies ApiErrorResponseBody;
+      return context.json(response, HttpStatusCode.BadRequest);
+    }
+    const twitchSession = await drizzle.query.twitchClientSessions.findFirst({
+      where: (twitchClientSession, { eq }) => eq(twitchClientSession.id, json.sessionId),
+    });
+    if (typeof twitchSession !== "undefined") {
+      const response = {
+        success: false,
+        error: {
+          type: "BAD_REQUEST",
+          message: "The request contained invalid data",
+          issues: [
+            {
+              path: "json: sessionId",
+              issue: "Session ID has already been used",
+            },
+          ],
+        },
+      } satisfies ApiErrorResponseBody;
+      return context.json(response, HttpStatusCode.BadRequest);
+    }
+    const expires = new Date(Date.now());
+    const loginUrl = `https://id.twitch.tv/oauth2/authorize
+    ?response_type=code&force_verify=true&client_id=${json.clientId}&redirect_uri=${encodeURIComponent(json.redirectUri)}&scope=${encodeURIComponent(json.scopes.join(" "))}&state=${json.sessionId}`;
+    await drizzle.insert(twitchClientSessions).values({
+      clientId: json.clientId,
+      id: json.sessionId,
+      status: "pending",
+      redirectUri: json.redirectUri,
+      loginUrl,
+      scopes: json.scopes.join(" "),
+      expires,
+    });
+    const response = {
+      success: true,
+      data: {
+        session: {
+          id: json.sessionId,
+          clientId: json.clientId,
+          scopes: json.scopes,
+          status: "pending",
+          redirectUri: json.redirectUri,
+          loginUrl,
+          expires: expires.toISOString(),
+        },
+      },
+      followUpUris: [
+        {
+          method: "GET",
+          uri: `/v1/twitch/session/${json.sessionId}`,
+          description: "Get information about the session and its current status",
+        },
+      ],
+    } satisfies ApiSuccessfulResponseBody<"POST /v1/twitch/session">;
+    return context.json(response, HttpStatusCode.Ok);
+  },
+);
 
 export default app;
