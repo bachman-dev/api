@@ -1,12 +1,10 @@
-CREATE TABLE `twitch_client_sessions` (
+CREATE TABLE `twitch_client_states` (
 	`id` text PRIMARY KEY NOT NULL,
 	`client_id` text(30) NOT NULL,
 	`redirect_uri` text NOT NULL,
-	`login_url` text NOT NULL,
-	`scopes` text NOT NULL,
-	`expires` integer NOT NULL,
-	`status` text NOT NULL,
-	`cancel_reason` text,
+	`code_challenge` text NOT NULL,
+	`code` text(40),
+	`twitch_code` text,
 	FOREIGN KEY (`client_id`) REFERENCES `twitch_clients`(`client_id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint

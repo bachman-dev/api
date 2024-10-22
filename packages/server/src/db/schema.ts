@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 
 export const twitchClients = sqliteTable("twitch_clients", {
@@ -9,31 +9,29 @@ export const twitchClients = sqliteTable("twitch_clients", {
 export type NewTwitchClient = typeof twitchClients.$inferInsert;
 export type TwitchClient = typeof twitchClients.$inferSelect;
 
-export const twitchClientSessions = sqliteTable("twitch_client_sessions", {
+export const twitchClientStates = sqliteTable("twitch_client_states", {
   id: text("id").primaryKey(),
   clientId: text("client_id", { length: 30 })
     .notNull()
     .references(() => twitchClients.clientId),
   redirectUri: text("redirect_uri").notNull(),
-  loginUrl: text("login_url").notNull(),
-  scopes: text("scopes").notNull(),
-  expires: integer("expires", { mode: "timestamp" }).notNull(),
-  status: text("status", { enum: ["pending", "complete", "canceled"] }).notNull(),
-  cancelReason: text("cancel_reason"),
+  codeChallenge: text("code_challenge").notNull(),
+  code: text("code", { length: 40 }),
+  twitchCode: text("twitch_code"),
 });
-export type NewTwitchClientSession = typeof twitchClientSessions.$inferInsert;
-export type TwitchClientSession = typeof twitchClientSessions.$inferSelect;
+export type NewTwitchClientState = typeof twitchClientStates.$inferInsert;
+export type TwitchClientState = typeof twitchClientStates.$inferSelect;
 
-export const twitchClientRelations = relations(twitchClients, ({ many }) => {
+export const twitchClientsRelations = relations(twitchClients, ({ many }) => {
   return {
-    sessions: many(twitchClientSessions),
+    states: many(twitchClientStates),
   };
 });
 
-export const twitchClientSessionsRelations = relations(twitchClientSessions, ({ one }) => {
+export const twitchClientStatesRelations = relations(twitchClientStates, ({ one }) => {
   return {
     client: one(twitchClients, {
-      fields: [twitchClientSessions.clientId],
+      fields: [twitchClientStates.clientId],
       references: [twitchClients.clientId],
     }),
   };
@@ -41,9 +39,9 @@ export const twitchClientSessionsRelations = relations(twitchClientSessions, ({ 
 
 const schema = {
   twitchClients,
-  twitchClientSessions,
-  twitchClientRelations,
-  twitchClientSessionsRelations,
+  twitchClientStates,
+  twitchClientsRelations,
+  twitchClientStatesRelations,
 };
 
 export default schema;
