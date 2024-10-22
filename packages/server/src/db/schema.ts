@@ -1,4 +1,4 @@
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 
 export const twitchClients = sqliteTable("twitch_clients", {
@@ -16,6 +16,7 @@ export const twitchClientStates = sqliteTable("twitch_client_states", {
     .references(() => twitchClients.clientId),
   redirectUri: text("redirect_uri").notNull(),
   codeChallenge: text("code_challenge").notNull(),
+  expires: integer("expires", { mode: "timestamp" }).notNull(),
   code: text("code", { length: 40 }),
   twitchCode: text("twitch_code"),
 });
