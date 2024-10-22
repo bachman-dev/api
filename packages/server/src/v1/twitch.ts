@@ -1,6 +1,14 @@
-import { type ApiSuccessfulResponseBody, HttpStatusCode } from "@bachman-dev/api-types";
+import {
+  type ApiErrorResponseBody,
+  type ApiSuccessfulResponseBody,
+  HttpStatusCode,
+  apiGetV1TwitchAuthorizeQuery,
+} from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
+import { getDrizzle } from "../db/index.js";
+import { throwOnValidationError } from "../errors.js";
+import { zValidator } from "@hono/zod-validator";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -25,6 +33,16 @@ app.get("/", (context) => {
     ],
   } satisfies ApiSuccessfulResponseBody<"GET /v1/twitch">;
   return context.json(response, HttpStatusCode.Ok);
+});
+
+app.get("/authorize", zValidator("query", apiGetV1TwitchAuthorizeQuery, throwOnValidationError), (context) => {
+  const query = context.req.valid("query");
+  const newRedirectUri = encodeURI(`${new URL(context.req.url).origin}/v1/twitch/callback`);
+  let redirectUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${query.client_id}&redirect_uri=${newRedirectUri}&scope=${query.scope}&state=${query.code_challenge}`;
+  if (query.force_verify === true) {
+    redirectUrl += "&force_verify=true";
+  }
+  return context.redirect(redirectUrl, HttpStatusCode.Found);
 });
 
 export default app;

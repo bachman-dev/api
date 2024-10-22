@@ -17,8 +17,8 @@ export const apiGetV1TwitchAuthorizeQuery = z.object({
   redirect_uri: z.string().url(),
   response_type: z.literal("code"),
   scope: z.string(),
-  state: z.string().uuid(),
   force_verify: z.boolean().optional(),
+  state: z.string().optional(),
 });
 export type ApiGetV1TwitchAuthorizeQuery = z.infer<typeof apiGetV1TwitchAuthorizeQuery>;
 
