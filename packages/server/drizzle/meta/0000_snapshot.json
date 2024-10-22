@@ -1,14 +1,14 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8e95c0aa-436e-4a2c-ab3a-a3dea155cbf4",
+  "id": "71f56d3f-81b3-423f-8956-18022e4b73e1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "twitch_client_states": {
       "name": "twitch_client_states",
       "columns": {
-        "id": {
-          "name": "id",
+        "code_challenge": {
+          "name": "code_challenge",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
@@ -28,13 +28,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "code_challenge": {
-          "name": "code_challenge",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "expires": {
           "name": "expires",
           "type": "integer",
@@ -44,16 +37,16 @@
         },
         "code": {
           "name": "code",
-          "type": "text(40)",
+          "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "twitch_code": {
           "name": "twitch_code",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         }
       },

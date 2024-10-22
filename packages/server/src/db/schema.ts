@@ -10,15 +10,14 @@ export type NewTwitchClient = typeof twitchClients.$inferInsert;
 export type TwitchClient = typeof twitchClients.$inferSelect;
 
 export const twitchClientStates = sqliteTable("twitch_client_states", {
-  id: text("id").primaryKey(),
+  codeChallenge: text("code_challenge").primaryKey(),
   clientId: text("client_id", { length: 30 })
     .notNull()
     .references(() => twitchClients.clientId),
   redirectUri: text("redirect_uri").notNull(),
-  codeChallenge: text("code_challenge").notNull(),
   expires: integer("expires", { mode: "timestamp" }).notNull(),
-  code: text("code", { length: 40 }),
-  twitchCode: text("twitch_code"),
+  code: text("code").notNull(),
+  twitchCode: text("twitch_code").notNull(),
 });
 export type NewTwitchClientState = typeof twitchClientStates.$inferInsert;
 export type TwitchClientState = typeof twitchClientStates.$inferSelect;
