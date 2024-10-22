@@ -22,12 +22,6 @@ export const twitchClientStates = sqliteTable("twitch_client_states", {
 export type NewTwitchClientState = typeof twitchClientStates.$inferInsert;
 export type TwitchClientState = typeof twitchClientStates.$inferSelect;
 
-export const twitchClientsRelations = relations(twitchClients, ({ many }) => {
-  return {
-    states: many(twitchClientStates),
-  };
-});
-
 export const twitchClientStatesRelations = relations(twitchClientStates, ({ one }) => {
   return {
     client: one(twitchClients, {
@@ -40,7 +34,6 @@ export const twitchClientStatesRelations = relations(twitchClientStates, ({ one 
 const schema = {
   twitchClients,
   twitchClientStates,
-  twitchClientsRelations,
   twitchClientStatesRelations,
 };
 
