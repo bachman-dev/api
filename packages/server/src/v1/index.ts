@@ -21,7 +21,7 @@ app.get("/", (context) => {
       {
         method: "GET",
         uri: "/v1/twitch",
-        description: "Get information about the Twitch OAuth Sessions API endpoint",
+        description: "Get information about the Twitch PKCE OAuth API endpoint",
       },
     ],
   } satisfies ApiResponseBody<"GET /:version">;

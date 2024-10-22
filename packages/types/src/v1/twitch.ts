@@ -1,32 +1,5 @@
-import { apiBasePostPutHeaders } from "../base.js";
+import { apiBasePostPutFormHeaders } from "../base.js";
 import { z } from "zod";
-
-export const apiTwitchOAuthSession = z.intersection(
-  z.object({
-    id: z.string().uuid(),
-    clientId: z.string().uuid(),
-    redirectUri: z.string().url(),
-    scopes: z.array(z.string()),
-    expires: z.string().datetime(),
-  }),
-  z.discriminatedUnion("status", [
-    z.object({ status: z.literal("pending"), loginUrl: z.string().url() }),
-    z.object({
-      status: z.literal("complete"),
-      oauth: z
-        .object({
-          access_token: z.string(),
-          expires_in: z.number(),
-          refresh_token: z.string(),
-          scope: z.array(z.string()),
-          token_type: z.literal("bearer"),
-        })
-        .nullable(),
-    }),
-    z.object({ status: z.literal("canceled"), reason: z.string().optional() }),
-  ]),
-);
-export type ApiTwitchOAuthSession = z.infer<typeof apiTwitchOAuthSession>;
 
 // GET /v1/twitch
 
@@ -35,32 +8,30 @@ export const apiGetV1TwitchIndexResponse = z.object({
 });
 export type ApiGetV1TwitchIndexResponse = z.infer<typeof apiGetV1TwitchIndexResponse>;
 
-//GET /v1/twitch/session/:id
+// GET /v1/twitch/authorize
 
-export const apiGetV1TwitchSessionParams = z.object({
-  id: z.string().uuid(),
+export const apiGetV1TwitchAuthorizeQuery = z.object({
+  client_id: z.string(),
+  code_challenge: z.string(),
+  code_challenge_method: z.literal("S256"),
+  redirect_uri: z.string().url(),
+  response_type: z.literal("code"),
+  scope: z.string(),
+  state: z.string().uuid(),
+  force_verify: z.boolean().optional(),
 });
-export type ApiGetV1TwitchSessionParams = z.infer<typeof apiGetV1TwitchSessionParams>;
+export type ApiGetV1TwitchAuthorizeQuery = z.infer<typeof apiGetV1TwitchAuthorizeQuery>;
 
-export const apiGetV1TwitchSessionResponse = z.object({
-  session: apiTwitchOAuthSession,
+// POST /v1/twitch/token
+
+export const apiPostV1TwitchTokenHeaders = apiBasePostPutFormHeaders;
+export type ApiPostV1TwitchTokenHeaders = z.infer<typeof apiPostV1TwitchTokenHeaders>;
+
+export const apiPostV1TwitchTokenForm = z.object({
+  client_id: z.string(),
+  code: z.string(),
+  code_verifier: z.string(),
+  grant_type: z.literal("authorization_code"),
+  redirect_uri: z.string().url(),
 });
-export type ApiGetV1TwitchSessionResponse = z.infer<typeof apiGetV1TwitchSessionResponse>;
-
-// POST /v1/twitch/session
-
-export const apiPostV1TwitchSessionHeaders = apiBasePostPutHeaders;
-export type ApiPostV1TwitchSessionHeaders = z.infer<typeof apiPostV1TwitchSessionHeaders>;
-
-export const apiPostV1TwitchSessionBody = z.object({
-  clientId: z.string(),
-  sessionId: z.string().uuid(),
-  redirectUri: z.string().url(),
-  scopes: z.array(z.string()),
-});
-export type ApiPostV1TwitchSessionBody = z.infer<typeof apiPostV1TwitchSessionBody>;
-
-export const apiPostV1TwitchSessionResponse = z.object({
-  session: apiTwitchOAuthSession,
-});
-export type ApiPostV1TwitchSessionResponse = z.infer<typeof apiPostV1TwitchSessionResponse>;
+export type ApiPostV1TwitchTokenForm = z.infer<typeof apiPostV1TwitchTokenForm>;

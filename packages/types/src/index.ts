@@ -1,10 +1,7 @@
 import type {
   ApiGetV1TwitchIndexResponse,
-  ApiGetV1TwitchSessionParams,
-  ApiGetV1TwitchSessionResponse,
-  ApiPostV1TwitchSessionBody,
-  ApiPostV1TwitchSessionHeaders,
-  ApiPostV1TwitchSessionResponse,
+  ApiPostV1TwitchTokenForm,
+  ApiPostV1TwitchTokenHeaders,
 } from "./v1/twitch.js";
 import type { ApiGetVersionResponse, ApiGetVersionsResponse } from "./versions/index.js";
 import type { ApiError } from "./errors.js";
@@ -28,44 +25,26 @@ export const apiFollowUpUri = z.object({
 });
 export type ApiFollowUpUri = z.infer<typeof apiFollowUpUri>;
 
-export type ApiEndpoints =
-  | "GET /:version"
-  | "GET /"
-  | "GET /v1/twitch"
-  | "GET /v1/twitch/session/:id"
-  | "GET /versions"
-  | "POST /v1/twitch/session";
-
-export interface ApiRequestParams {
-  "GET /v1/twitch/session/:id": ApiGetV1TwitchSessionParams;
-}
-
-export interface ApiRequestQueries {
-  "GET /": null;
-}
+export type ApiEndpoints = "GET /:version" | "GET /" | "GET /v1/twitch" | "GET /versions";
 
 export interface ApiRequestHeaders {
-  "POST /v1/twitch/state": ApiPostV1TwitchSessionHeaders;
+  "POST /v1/twitch/token": ApiPostV1TwitchTokenHeaders;
 }
 
-export interface ApiRequestBodies {
-  "POST /v1/twitch/session": ApiPostV1TwitchSessionBody;
+export interface ApiRequestForms {
+  "POST /v1/twitch/token": ApiPostV1TwitchTokenForm;
 }
 
 export interface ApiRequestOptions<T extends ApiEndpoints> {
-  body: T extends keyof ApiRequestBodies ? ApiRequestBodies[T] : null;
+  form: T extends keyof ApiRequestForms ? ApiRequestForms[T] : null;
   headers: T extends keyof ApiRequestHeaders ? ApiRequestHeaders[T] : null;
-  params: T extends keyof ApiRequestParams ? ApiRequestParams[T] : null;
-  query: T extends keyof ApiRequestQueries ? ApiRequestQueries[T] : null;
 }
 
 export interface ApiResponseBodies {
   "GET /": ApiGetIndexResponse;
   "GET /:version": ApiGetVersionResponse;
   "GET /v1/twitch": ApiGetV1TwitchIndexResponse;
-  "GET /v1/twitch/session/:id": ApiGetV1TwitchSessionResponse;
   "GET /versions": ApiGetVersionsResponse;
-  "POST /v1/twitch/session": ApiPostV1TwitchSessionResponse;
 }
 
 export interface ApiSuccessfulResponseBody<T extends ApiEndpoints> {
@@ -83,3 +62,21 @@ export interface ApiErrorResponseBody {
 }
 
 export type ApiResponseBody<T extends ApiEndpoints> = ApiErrorResponseBody | ApiSuccessfulResponseBody<T>;
+
+export type ApiOAuthResponseBody =
+  | {
+      access_token: string;
+      expires_in: number;
+      refresh_token: string;
+      scope: string[];
+      token_type: "bearer";
+    }
+  | {
+      error:
+        | "invalid_client"
+        | "invalid_grant"
+        | "invalid_request"
+        | "invalid_scope"
+        | "unauthorized_client"
+        | "unsupported_grant_type";
+    };
