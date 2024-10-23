@@ -22,6 +22,29 @@ export const apiGetV1TwitchAuthorizeQuery = z.object({
 });
 export type ApiGetV1TwitchAuthorizeQuery = z.infer<typeof apiGetV1TwitchAuthorizeQuery>;
 
+// GET /v1/twitch/callback
+
+export const apiGetV1TwitchCallbackQuery = z.intersection(
+  z.object({
+    state: z.string(),
+  }),
+  z.union([
+    z.object({
+      error: z.string(),
+      error_description: z.string(),
+      code: z.never().optional(),
+      scope: z.never().optional(),
+    }),
+    z.object({
+      code: z.string(),
+      scope: z.string(),
+      error: z.never().optional(),
+      error_description: z.never().optional(),
+    }),
+  ]),
+);
+export type ApiGetV1TwitchCallbackQuery = z.infer<typeof apiGetV1TwitchCallbackQuery>;
+
 // POST /v1/twitch/token
 
 export const apiPostV1TwitchTokenHeaders = apiBasePostPutFormHeaders;

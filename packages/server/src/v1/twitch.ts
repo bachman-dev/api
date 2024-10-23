@@ -3,11 +3,13 @@ import {
   type ApiSuccessfulResponseBody,
   HttpStatusCode,
   apiGetV1TwitchAuthorizeQuery,
+  apiGetV1TwitchCallbackQuery,
 } from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
 import { eq } from "drizzle-orm";
 import { getDrizzle } from "../db/index.js";
+import randomCode from "../util/randomCode.js";
 import { throwOnValidationError } from "../errors.js";
 import { twitchClientStates } from "../db/schema.js";
 import withinTenMinutes from "../util/withinTenMinutes.js";
@@ -101,6 +103,49 @@ app.get("/authorize", zValidator("query", apiGetV1TwitchAuthorizeQuery, throwOnV
   let redirectUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${query.client_id}&redirect_uri=${newRedirectUri}&scope=${query.scope}&state=${query.code_challenge}`;
   if (query.force_verify === true) {
     redirectUrl += "&force_verify=true";
+  }
+  return context.redirect(redirectUrl, HttpStatusCode.Found);
+});
+
+app.get("/callback", zValidator("query", apiGetV1TwitchCallbackQuery), async (context) => {
+  const CODE_LENGTH = 40;
+  const query = context.req.valid("query");
+  const drizzle = getDrizzle(context.env.DB);
+  const twitchState = await drizzle.query.twitchClientStates.findFirst({
+    where: (twitchState) => eq(twitchState.codeChallenge, query.state),
+  });
+  if (typeof twitchState === "undefined") {
+    const response = {
+      success: false,
+      error: {
+        type: "BAD_REQUEST",
+        message: "The request contained invalid data",
+        issues: [
+          {
+            path: "query: state",
+            issue: "The given state has not been used in this authentication flow",
+          },
+        ],
+      },
+    } satisfies ApiErrorResponseBody;
+    return context.json(response, HttpStatusCode.BadRequest);
+  }
+  let redirectUrl = twitchState.redirectUri;
+  if (typeof query.code === "undefined") {
+    redirectUrl += `?error=${query.error}&error_description=${query.error_description}`;
+  } else {
+    const code = randomCode(CODE_LENGTH);
+    await drizzle
+      .update(twitchClientStates)
+      .set({
+        code,
+        twitchCode: query.code,
+      })
+      .where(eq(twitchClientStates.codeChallenge, twitchState.codeChallenge));
+    redirectUrl += `?code=${code}&scope=${query.scope}`;
+  }
+  if (twitchState.state !== null) {
+    redirectUrl += `&state=${twitchState.state}`;
   }
   return context.redirect(redirectUrl, HttpStatusCode.Found);
 });
