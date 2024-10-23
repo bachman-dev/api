@@ -6,44 +6,6 @@ export const apiValidationIssue = z.object({
 });
 export type ApiValidationIssue = z.infer<typeof apiValidationIssue>;
 
-function unknownToString(value: unknown): string {
-  switch (typeof value) {
-    case "undefined":
-      return "undefined";
-    case "string":
-      return `String(${value})`;
-    case "bigint":
-      return `BigInt(${value})`;
-    case "boolean":
-      return `Boolean(${value ? "true" : "false"})`;
-    case "number": {
-      if (Number.isNaN(value)) {
-        return "NaN";
-      }
-      return `Number(${value})`;
-    }
-    case "function":
-      return `Function(${value.name})`;
-    case "symbol":
-      return `Symbol(${value.description ?? "<no description>"})`;
-    case "object": {
-      if (value === null) {
-        return "null";
-      }
-      if (value.constructor.name !== "Object") {
-        return value.constructor.name;
-      }
-      let substring = `Object { `;
-      for (const [key, anyValue] of Object.entries(value)) {
-        const unknownValue = anyValue as unknown;
-        substring += `${key}: ${unknownToString(unknownValue)}, `;
-      }
-      substring += `}`;
-      return substring;
-    }
-  }
-}
-
 export function formatZodErrors(
   location: "cookie" | "form" | "header" | "json" | "param" | "query",
   error: z.ZodError,
@@ -72,12 +34,6 @@ export function formatZodErrors(
         issueArray.push({ path, issue: "Invalid function arguments, specific errors to follow" });
         issueArray.push(...formatZodErrors(location, issue.argumentsError));
         break;
-      case "invalid_literal":
-        issueArray.push({
-          path,
-          issue: `Expected ${unknownToString(issue.expected)} but got ${unknownToString(issue.received)}`,
-        });
-        break;
       case "invalid_return_type":
         issueArray.push({ path, issue: "Invalid return type on function, specific errors to follow" });
         issueArray.push(...formatZodErrors(location, issue.returnTypeError));
@@ -98,7 +54,7 @@ export function formatZodErrors(
 export const apiError = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("BAD_REQUEST"),
-    message: z.string(),
+    message: z.literal("The request contained invalid data"),
     issues: z.array(apiValidationIssue),
   }),
   z.object({
