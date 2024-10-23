@@ -6,8 +6,11 @@ import {
 } from "@bachman-dev/api-types";
 import type { Env } from "../types/cloudflare.js";
 import { Hono } from "hono";
+import { eq } from "drizzle-orm";
 import { getDrizzle } from "../db/index.js";
 import { throwOnValidationError } from "../errors.js";
+import { twitchClientStates } from "../db/schema.js";
+import withinTenMinutes from "../util/withinTenMinutes.js";
 import { zValidator } from "@hono/zod-validator";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -35,8 +38,65 @@ app.get("/", (context) => {
   return context.json(response, HttpStatusCode.Ok);
 });
 
-app.get("/authorize", zValidator("query", apiGetV1TwitchAuthorizeQuery, throwOnValidationError), (context) => {
+app.get("/authorize", zValidator("query", apiGetV1TwitchAuthorizeQuery, throwOnValidationError), async (context) => {
   const query = context.req.valid("query");
+  const drizzle = getDrizzle(context.env.DB);
+  const twitchClient = await drizzle.query.twitchClients.findFirst({
+    where: (client) => eq(client.id, query.client_id),
+  });
+  if (typeof twitchClient === "undefined") {
+    const response = {
+      success: false,
+      error: {
+        type: "BAD_REQUEST",
+        message: "The request contained invalid data",
+        issues: [
+          {
+            path: "query: client_id",
+            issue: "This Client ID is not authorized to use this API",
+          },
+        ],
+      },
+    } satisfies ApiErrorResponseBody;
+    return context.json(response, HttpStatusCode.BadRequest);
+  }
+  const twitchState = await drizzle.query.twitchClientStates.findFirst({
+    where: (clientState) => eq(clientState.codeChallenge, query.code_challenge),
+  });
+  if (typeof twitchState === "undefined") {
+    await drizzle.insert(twitchClientStates).values({
+      codeChallenge: query.code_challenge,
+      clientId: query.client_id,
+      redirectUri: query.redirect_uri,
+      expires: withinTenMinutes(new Date()),
+      state: query.state ?? null,
+    });
+  } else if (twitchState.code === null) {
+    await drizzle
+      .update(twitchClientStates)
+      .set({
+        clientId: query.client_id,
+        redirectUri: query.redirect_uri,
+        expires: withinTenMinutes(new Date()),
+        state: query.state ?? null,
+      })
+      .where(eq(twitchClientStates.codeChallenge, twitchState.codeChallenge));
+  } else {
+    const response = {
+      success: false,
+      error: {
+        type: "BAD_REQUEST",
+        message: "The request contained invalid data",
+        issues: [
+          {
+            path: "query: code_challenge",
+            issue: "This Code Challenge has already been used to authorize a user against the Twitch API",
+          },
+        ],
+      },
+    } satisfies ApiErrorResponseBody;
+    return context.json(response, HttpStatusCode.BadRequest);
+  }
   const newRedirectUri = encodeURI(`${new URL(context.req.url).origin}/v1/twitch/callback`);
   let redirectUrl = `https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=${query.client_id}&redirect_uri=${newRedirectUri}&scope=${query.scope}&state=${query.code_challenge}`;
   if (query.force_verify === true) {
