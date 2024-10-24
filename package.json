@@ -12,7 +12,8 @@
     "dev:cron": "turbo dev:cron",
     "format": "prettier --write \"**/*.{js,mjs,ts,ts,md,yml,yaml}\"",
     "lint": "turbo lint",
-    "lint:fix": "turbo lint:fix"
+    "lint:fix": "turbo lint:fix",
+    "secrets:export": "infisical export --projectId=e51d5e47-977e-45e2-8fee-7720e1e6838f --env=dev --path=/cloudflare/api-bachman-dev > ./packages/server/.dev.vars"
   },
   "keywords": [],
   "author": "",

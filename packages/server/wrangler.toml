@@ -6,6 +6,12 @@ routes = [
 	{ pattern = "api.bachman.dev", custom_domain = true }
 ]
 
+[triggers]
+crons = [ "* * * * *" ]
+
+[vars]
+USE_LOCAL_HOST = "false"
+
 [observability]
 enabled = true
 
@@ -13,3 +19,4 @@ enabled = true
 binding = "DB"
 database_name = "api-bachman-dev"
 database_id = "f9b22e3b-8dd2-4b42-9668-8aa227c3dc36"
+migrations_dir = "drizzle"
