@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "71f56d3f-81b3-423f-8956-18022e4b73e1",
+  "id": "7dc80614-ee88-4887-bc4c-49088cf9e8db",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "twitch_client_states": {
@@ -35,32 +35,39 @@
           "notNull": true,
           "autoincrement": false
         },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "code": {
           "name": "code",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "twitch_code": {
           "name": "twitch_code",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "twitch_client_states_client_id_twitch_clients_client_id_fk": {
-          "name": "twitch_client_states_client_id_twitch_clients_client_id_fk",
+        "twitch_client_states_client_id_twitch_clients_id_fk": {
+          "name": "twitch_client_states_client_id_twitch_clients_id_fk",
           "tableFrom": "twitch_client_states",
           "tableTo": "twitch_clients",
           "columnsFrom": [
             "client_id"
           ],
           "columnsTo": [
-            "client_id"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -72,8 +79,8 @@
     "twitch_clients": {
       "name": "twitch_clients",
       "columns": {
-        "client_id": {
-          "name": "client_id",
+        "id": {
+          "name": "id",
           "type": "text(30)",
           "primaryKey": true,
           "notNull": true,
@@ -89,6 +96,87 @@
         "client_secret": {
           "name": "client_secret",
           "type": "text(30)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "twitch_clients_to_users": {
+      "name": "twitch_clients_to_users",
+      "columns": {
+        "client_id": {
+          "name": "client_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "twitch_clients_to_users_client_id_twitch_clients_id_fk": {
+          "name": "twitch_clients_to_users_client_id_twitch_clients_id_fk",
+          "tableFrom": "twitch_clients_to_users",
+          "tableTo": "twitch_clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "twitch_clients_to_users_user_id_twitch_users_id_fk": {
+          "name": "twitch_clients_to_users_user_id_twitch_users_id_fk",
+          "tableFrom": "twitch_clients_to_users",
+          "tableTo": "twitch_users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "twitch_clients_to_users_client_id_user_id_pk": {
+          "columns": [
+            "client_id",
+            "user_id"
+          ],
+          "name": "twitch_clients_to_users_client_id_user_id_pk"
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "twitch_users": {
+      "name": "twitch_users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_name": {
+          "name": "user_name",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
