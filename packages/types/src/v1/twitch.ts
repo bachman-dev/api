@@ -16,7 +16,7 @@ export const apiGetV1TwitchAuthorizeQuery = z.object({
   code_challenge_method: z.literal("S256"),
   redirect_uri: z.string().url(),
   response_type: z.literal("code"),
-  scope: z.string(),
+  scope: z.string().optional(),
   force_verify: z.boolean().optional(),
   state: z.string().optional(),
 });
@@ -58,3 +58,30 @@ export const apiPostV1TwitchTokenForm = z.object({
   redirect_uri: z.string().url(),
 });
 export type ApiPostV1TwitchTokenForm = z.infer<typeof apiPostV1TwitchTokenForm>;
+
+export const apiPostV1TwitchTokenResponse = z.union([
+  z.object({
+    access_token: z.string(),
+    expires_in: z.number(),
+    refresh_token: z.string(),
+    scope: z.array(z.string()),
+    token_type: z.literal("bearer"),
+    error: z.never().optional(),
+  }),
+  z.object({
+    error: z.enum([
+      "invalid_client",
+      "invalid_grant",
+      "invalid_request",
+      "invalid_scope",
+      "unauthorized_client",
+      "unsupported_grant_type",
+    ]),
+    access_token: z.never().optional(),
+    expires_in: z.never().optional(),
+    refresh_token: z.never().optional(),
+    scope: z.never().optional(),
+    token_type: z.never().optional(),
+  }),
+]);
+export type ApiPostV1TwitchTokenResponse = z.infer<typeof apiPostV1TwitchTokenResponse>;
