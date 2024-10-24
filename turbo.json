@@ -13,9 +13,13 @@
       "cache": false
     },
     "db:migrate": {
-      "cache": false
+      "cache": false,
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"]
     },
-    "deploy": {},
+    "deploy": {
+      "cache": false,
+      "env": ["CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
