@@ -6,6 +6,9 @@ routes = [
 	{ pattern = "api.bachman.dev", custom_domain = true }
 ]
 
+[triggers]
+crons = [ "* * * * *" ]
+
 [vars]
 USE_LOCAL_HOST = "false"
 
