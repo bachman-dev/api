@@ -7,7 +7,7 @@ routes = [
 ]
 
 [vars]
-USE_LOCAL_HOST = "true"
+USE_LOCAL_HOST = "false"
 
 [observability]
 enabled = true
