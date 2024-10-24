@@ -9,7 +9,9 @@ const deleteExpiredStates: ExportedHandlerScheduledHandler<Env> = async (_contro
     where: (state, { lt }) => lt(state.expires, new Date()),
   });
   const stateIds = states.map((state) => state.codeChallenge);
-  await drizzle.delete(twitchClientStates).where(inArray(twitchClientStates.codeChallenge, stateIds));
+  if (stateIds.length > 0) {
+    await drizzle.delete(twitchClientStates).where(inArray(twitchClientStates.codeChallenge, stateIds));
+  }
 };
 
 export default deleteExpiredStates;
